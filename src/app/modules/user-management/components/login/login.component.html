@@ -1,0 +1,37 @@
+<div class="background-img">
+  <div class="center-center align">
+    <mat-card class="login-card-padding">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+        <div class="example-container form-group">
+          <mat-form-field class="text-color">
+            <input
+              matInput
+              placeholder="Username"
+              formControlName="username"
+              class="form-control"
+            />
+          </mat-form-field>
+          <mat-form-field class="text-color" hideRequiredMarker="true">
+            <input
+              matInput
+              placeholder="Password"
+              [type]="hide ? 'password' : 'text'"
+              formControlName="password"
+              class="form-control"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              aria-label="hide"
+              class="icon"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
+          </mat-form-field>
+          <button type="submit" mat-button class="button1">Login</button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</div>

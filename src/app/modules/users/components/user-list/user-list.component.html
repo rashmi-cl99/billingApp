@@ -1,0 +1,25 @@
+<div class="row m-0">
+  <div class="col-6">
+    <h2>Users</h2>
+  </div>
+  <div class="col-6 mt-2 userbtn">
+    <button mat-button class=" bg-primary text-white" (click)="btnClick()">
+      Add
+    </button>
+  </div>
+</div>
+
+<div *ngFor="let user of userList">
+  <a [routerLink]="['/profile', user.id]" class="text">
+    <mat-card class="font-weight-bold mt-3">
+      <div class="row">
+        <ngx-avatar [name]="user.name"></ngx-avatar>
+        <div class="col-9">
+          <p>{{ user.name }}</p>
+          <p>{{ user.email_id }}</p>
+          <p>{{ user.phone_num }}</p>
+        </div>
+      </div>
+    </mat-card>
+  </a>
+</div>

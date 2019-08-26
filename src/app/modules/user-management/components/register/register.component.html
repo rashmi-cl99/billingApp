@@ -1,0 +1,96 @@
+<!-- <mat-card class="register-card-padding mx-auto mt-2"> -->
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="form-group d-flex flex-row flex-wrap">
+    <mat-form-field class="col-12">
+      <input
+        matInput
+        placeholder="Name"
+        formControlName="name"
+        class="form-control "
+      />
+      <mat-error *ngIf="registerForm.get('name').invalid">{{
+        getErrorMessagename()
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-12">
+      <input
+        matInput
+        placeholder="Phone"
+        formControlName="phone"
+        class="form-control "
+      />
+      <mat-error *ngIf="registerForm.get('phone').invalid">{{
+        getErrorMessage1()
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-12">
+      <input
+        matInput
+        placeholder="Email"
+        formControlName="email"
+        class="form-control "
+      />
+      <mat-error *ngIf="registerForm.get('email').invalid">{{
+        getErrorMessage()
+      }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-12">
+      <input
+        matInput
+        placeholder="Password"
+        formControlName="password"
+        class="form-control "
+      />
+    
+    </mat-form-field>
+    <mat-form-field class="col-12">
+      <input
+        matInput
+        placeholder="Conform Password"
+        formControlName="conformpwd"
+        class="form-control"
+      />
+      <mat-error
+        *ngIf="
+          registerForm.get('conformpwd').errors !== null &&
+          registerForm.get('conformpwd').errors['notMatched']
+        "
+        >password not matched</mat-error
+      >
+    </mat-form-field>
+    <div class="p-2">
+      <button
+        mat-button
+        [matMenuTriggerFor]="menu"
+        type="button"
+        class="text-left text-secondary menu-clr"
+      >
+        Role
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Admin</button>
+        <button mat-menu-item>Account</button>
+        <button mat-menu-item>Staff</button>
+      </mat-menu>
+    </div>
+    <div class="p-2">
+      <button
+        mat-button
+        [matMenuTriggerFor]="menu1"
+        type="button"
+        class="text-left text-secondary menu-clr"
+      >
+        Shop
+      </button>
+      <mat-menu #menu1="matMenu">
+        <button mat-menu-item>Shop 1</button>
+        <button mat-menu-item>Shop 2</button>
+      </mat-menu>
+    </div>
+    <div class="col-12 text-center text-white">
+      <button mat-button class=" bg-primary ">Submit</button>
+    </div>
+  </div>
+</form>
+
+<!-- </mat-card> -->
