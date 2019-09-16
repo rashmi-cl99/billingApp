@@ -13,7 +13,7 @@ export class UserListComponent implements OnInit {
   userList = [];
 
   ngOnInit() {
-    this.userList = this.userService.getUsers();
+   
   }
 
   btnClick = function() {

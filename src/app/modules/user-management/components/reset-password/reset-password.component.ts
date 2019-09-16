@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute, Router, Params } from "@angular/router";
+import { UserManagementService } from '../../services/user-management.service';
+import Swal from 'sweetalert2';
+import 'sweetalert2/src/sweetalert2.scss';
 
 @Component({
   selector: "app-reset-password",
@@ -13,7 +16,7 @@ export class ResetPasswordComponent implements OnInit {
   hide = true;
 
   constructor(
-    // private usermanagementService: UserManagementService,
+   private userManagementService: UserManagementService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -53,18 +56,18 @@ export class ResetPasswordComponent implements OnInit {
       confirmPassword: this.resetForm.value.confirmPassword,
       token: this.token
     };
-    // this.usermanagementService.resetpwd(fd).subscribe(
-    //   res => {
-    //     Swal.fire("password reset successfully", res, "success");
-    //     this.router.navigate(["/login"]);
-    //   },
-    //   error => {
-    //     Swal.fire({
-    //       type: "error",
-    //       title: "Oops...",
-    //       text: error.message
-    //     });
-    //   }
-    // );
+    this.userManagementService.resetpwd(fd).subscribe(
+      res => {
+        Swal.fire("password reset successfully", res, "success");
+        this.router.navigate(["/login"]);
+      },
+      error => {
+        Swal.fire({
+          type: "error",
+          title: "Oops...",
+          text: error.message
+        });
+      }
+    );
   }
 }

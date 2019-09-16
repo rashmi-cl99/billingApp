@@ -1,5 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { map, catchError } from "rxjs/operators";
+import { Observable} from "rxjs";
 @Injectable({
   providedIn: "root"
 })
@@ -26,9 +28,9 @@ export class UserService {
     };
     this.users.push(reformattedData);
   }
-  getUsers() {
-    return this.users;
-  }
+  // getUsers() {
+  //   return this.users;
+  // }
   getUser(id) {
     return this.users.filter(user => {
       if (+user.id === +id) {
@@ -39,4 +41,5 @@ export class UserService {
   updateUser(userDetails) {
     const users = this.users;
   }
+ 
 }
