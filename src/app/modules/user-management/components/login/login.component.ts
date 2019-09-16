@@ -9,9 +9,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./login.component.scss"]
 })
 export class LoginComponent implements OnInit {
-  title = "billingapp";
   hide = true;
-
   loginForm: FormGroup;
   token: any;
   innerWidth: any;
@@ -25,11 +23,11 @@ export class LoginComponent implements OnInit {
     private userManagementService: UserManagementService,
     private router: Router
   ) {}
+
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
 
   ngOnInit() {
     this.innerWidth = window.innerWidth;
-
     localStorage.clear();
     this.loginForm = new FormGroup({
       username: new FormControl(null, [
