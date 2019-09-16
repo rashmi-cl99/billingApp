@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostListener } from "@angular/core";
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 import { UserManagementService } from "../../services/user-management.service";
 import { Router } from "@angular/router";
@@ -14,6 +14,12 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   token: any;
+  innerWidth: any;
+
+  @HostListener("window:resize", ["$event"])
+  onResize(event) {
+    this.innerWidth = window.innerWidth;
+  }
 
   constructor(
     private userManagementService: UserManagementService,
@@ -22,6 +28,8 @@ export class LoginComponent implements OnInit {
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
 
   ngOnInit() {
+    this.innerWidth = window.innerWidth;
+
     localStorage.clear();
     this.loginForm = new FormGroup({
       username: new FormControl(null, [

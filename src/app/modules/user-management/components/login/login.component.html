@@ -3,7 +3,8 @@
     class=" d-flex justify-content-center justify-content-md-end align-items-center h-100"
   >
     <div
-      class="bg-white col-11 col-md-3 d-flex flex-row align-items-center "
+      [ngClass]="{ 'h-100': innerWidth >= 768 }"
+      class="bg-white col-11 col-md-5 col-lg-4 col-xl-3 d-flex flex-row align-items-center "
     >
       <div class="my-auto text-center col-12  py-5 ">
         <i class="material-icons">

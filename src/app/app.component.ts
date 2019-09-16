@@ -17,7 +17,6 @@ export class AppComponent {
 
   ngDoCheck() {
     this.href = this.router.url;
-    console.log("hrefffff",this.href)
     // if (this.href === "/login") {
     //   this.isLoggedIn = false;
     //   this.header = false;
