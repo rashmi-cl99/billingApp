@@ -1,4 +1,80 @@
 <div class="background-img">
+  <div
+    class=" d-flex justify-content-center justify-content-md-end align-items-center h-100"
+  >
+    <div
+      class="bg-white col-11 col-md-3 d-flex flex-row align-items-center "
+    >
+      <div class="my-auto text-center col-12  py-5 ">
+        <i class="material-icons">
+          assignment
+        </i>
+        <p class="">Login to Billing App</p>
+        <form [formGroup]="loginForm">
+          <mat-form-field class="text-secondary w-100" appearance="outline">
+            <mat-label>Enter your Email</mat-label>
+            <input
+              matInput
+              placeholder="Email"
+              formControlName="username"
+              class="form-control"
+            />
+            <mat-hint>Ex: abc@gmail.com</mat-hint>
+            <mat-error *ngIf="loginForm.get('username').invalid">{{
+              getErrorMessage()
+            }}</mat-error>
+          </mat-form-field>
+          <mat-form-field
+            class="w-100  mt-3"
+            hideRequiredMarker="true"
+            appearance="outline"
+          >
+            <mat-label>Enter your Password</mat-label>
+            <input
+              matInput
+              placeholder="Password"
+              [type]="hide ? 'password' : 'text'"
+              formControlName="password"
+              class="form-control"
+            />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              aria-label="hide"
+              class="bg-transparent"
+            >
+              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+            </button>
+            <mat-hint>Minimum 8 characters!</mat-hint>
+            <mat-error *ngIf="loginForm.get('password').invalid">{{
+              getErrorMessagepwd()
+            }}</mat-error>
+          </mat-form-field>
+          <div class="mt-3 text-left">
+            <small
+              [routerLink]="['/forgot-password']"
+              class="text-primary font-weight-bold"
+              >Forgot password?</small
+            >
+          </div>
+          <div class="mt-2 text-center">
+            <button
+              type="submit"
+              mat-button
+              class="bg-primary text-white  bold w-100 py-2 font-weight-bold"
+              (click)="onSubmit()"
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div >
   <div class="center-center align">
     <mat-card class="login-card-padding">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
@@ -34,4 +110,4 @@
       </form>
     </mat-card>
   </div>
-</div>
+</div> -->
