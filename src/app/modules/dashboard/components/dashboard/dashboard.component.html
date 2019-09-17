@@ -1,7 +1,12 @@
 <div class="px-0 col-10 mx-auto d-flex flex-row flex-wrap ">
   <div class="col-9">
     <h2>Shops</h2>
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      class="mat-elevation-z8 w-100"
+    >
       <!-- Position Column -->
       <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
@@ -32,5 +37,20 @@
   </div>
   <div class="col-3">
     <h2>Options</h2>
+    <div>
+      <div
+        *ngFor="let option of options"
+        class="card bg-white br-5 cursor-pointer my-2"
+      >
+        <div class="card-body d-flex flex-row align-items-center">
+          <i class="material-icons px-3 py-2 bl-5 text-white light-green">
+            {{ option.icon }}
+          </i>
+          <p class="card-text my-0 pl-3">
+            {{ option.name }}
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

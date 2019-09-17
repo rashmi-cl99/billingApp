@@ -1,19 +1,12 @@
-<mat-toolbar class="py-5">
+<mat-toolbar class=" bg-white">
   <span
     ><img
       src="https://i.pinimg.com/originals/61/00/8d/61008dab6f6c4ecf2c27d1f6ad973ed4.jpg"
-      width="80"
+      width="50"
       class="img-fluid"
   /></span>
-  <span class="ml-auto"
-    >{{ name }}
-    <button
-      mat-button
-      [matMenuTriggerFor]="menu"
-      class="ml-auto menu rounded-circle text-white"
-    >
-      MB
-    </button>
+  <span class="ml-auto" mat-button [matMenuTriggerFor]="menu">
+    <i class="material-icons"> person_outline </i> <span></span>{{ name }}
     <mat-menu #menu="matMenu">
       <button mat-menu-item>My Account</button>
       <button mat-menu-item>Users</button>
