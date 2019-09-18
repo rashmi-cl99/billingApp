@@ -62,11 +62,11 @@ export class LoginComponent implements OnInit {
           console.log(res);
           console.log('response', res)
           if(res.status == 'success') {
-            const { token, role_id, user_id ,name} = res;
+            const { token, role, user_id ,name} = res;
             localStorage.setItem("token", token);
-            localStorage.setItem("userId", user_id);
-            localStorage.setItem("roleId", role_id);
-            localStorage.setItem("name", name);
+            // localStorage.setItem("userId", user_id);
+            // localStorage.setItem("roleId", role);
+            // localStorage.setItem("name", name);
             this.router.navigate(["/users"]);
           } else {
             Swal.fire({
@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
           Swal.fire({
             type: 'error',
             title: 'Oops...',
-            text:error.message,
+            text: error.message,
           });
         }
       );

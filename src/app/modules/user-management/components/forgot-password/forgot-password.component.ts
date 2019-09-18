@@ -18,11 +18,12 @@ export class ForgotPasswordComponent implements OnInit {
   forgotform: FormGroup;
   ngOnInit() 
   {
+    //form control for username
     this.forgotform = new FormGroup({
       username: new FormControl(null, [Validators.required, Validators.email])
     });
   }
- 
+ //this method is used to show the error message for username field
   getErrorMessage() 
   {
     return this.forgotform.get("username").hasError("required")
@@ -32,6 +33,7 @@ export class ForgotPasswordComponent implements OnInit {
       : "";
   }
 
+  //this method is used for service integration of forgotPassword
   forgotpwd() {
     console.log("adsfdsfsdf", this.forgotform);
 
@@ -44,7 +46,6 @@ export class ForgotPasswordComponent implements OnInit {
         this.router.navigate(['/login']);
       },
       error => {
-       // Swal.fire("error response", error);
         Swal.fire({
           type: 'error',
           title: 'Oops...',

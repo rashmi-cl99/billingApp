@@ -1,1 +1,45 @@
-<p>user page is working</p>
+    <div class="row m-0">
+      <div class="col-6">
+        <h2>Users</h2>
+      </div>
+      <div class="col-6 mt-3 userbtn">
+        <mat-form-field>
+        <!-- <mat-icon mat-Perfix>search</mat-icon> -->
+        <input placeholder="Search" class="py-2 px-2 border-0">
+        </mat-form-field>
+        <button mat-button class=" bg-primary text-white" (click)="addDialog()">
+          Add
+        </button>
+      </div>
+    </div>
+    <div class="container">
+    <div class="row m-0">
+      <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let user of userList">
+        <mat-card class="font-weight-bold mt-3">
+         <div class="row d-flex flex-wrap justify-content-center">
+            <ngx-avatar [name]="user.name" [round]="false"></ngx-avatar>
+          </div>
+          <div class="row d-flex flex-wrap justify-content-center mt-2">      
+            <div class="col-lg-8 col-md-8 col-9"> 
+              <div class="text-center">{{user.name }}</div>
+              <div class="text-center">{{ user.email }}</div>
+              <div class="text-center">{{ user.phone }}</div>
+            </div>
+          </div>
+          <div class="row text-left">
+            <div class="col-6">
+              <p (click)="editdetails(user.id)"
+              (click)="editDialog(user)"class="mb-0"><mat-icon><small>edit</small></mat-icon>Edit</p>
+            </div>
+            <div class="col-6 text-right">
+              <p  
+              (click)="statusdetail(user.id, user.is_active)" class="mb-0"><mat-icon><small>sync_disabled</small></mat-icon> {{ user.is_active === true ? "Disable" : "Enable" }}</p>
+            </div>
+          </div>
+        </mat-card> 
+      </div>
+     </div>
+    </div>
+    <footer>
+        <p class="small text-center">Copyright &copy;2019</p>
+    </footer>

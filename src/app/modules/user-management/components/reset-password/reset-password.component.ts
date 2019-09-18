@@ -12,8 +12,8 @@ import 'sweetalert2/src/sweetalert2.scss';
 })
 export class ResetPasswordComponent implements OnInit {
   resetForm: FormGroup;
-  token: any;
-  hide = true;
+  token: any;//this is used to store the token value
+  hide = true;//this is used to hide and show the password
 
   constructor(
    private userManagementService: UserManagementService,
@@ -22,6 +22,7 @@ export class ResetPasswordComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    //form control for newPassword and confirmPassword
     this.resetForm = new FormGroup({
       newPassword: new FormControl(null, [
         Validators.required,
@@ -32,23 +33,28 @@ export class ResetPasswordComponent implements OnInit {
         Validators.minLength(8)
       ])
     });
+    //this is used to get token value from url
     this.route.params.subscribe((params: Params) => {
       this.token = params["token"];
       console.log("token=", this.token);
     });
   }
 
+  //this method is used to show error message for newPassword
   getErrorMessagenewpwd() {
     return this.resetForm.get("newPassword").hasError("required")
       ? "You must enter a value"
       : "";
   }
 
+  //this method is used to show error message for confirmPassword
   getErrorMessageconfpwd() {
     return this.resetForm.get("confirmPassword").hasError("required")
       ? "You must enter a value"
       : "";
   }
+
+  //this method is used for service integration of resetPassword
   resetpwd() {
     console.log(this.resetForm.valid);
     const fd = {
