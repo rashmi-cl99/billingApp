@@ -5,8 +5,12 @@
       width="50"
       class="img-fluid"
   /></span>
-  <span class="ml-auto" mat-button [matMenuTriggerFor]="menu">
-    <i class="material-icons"> person_outline </i> <span></span>{{ name }}
+
+  <span
+    class="ml-auto d-flex align-items-center cursor-pointer"
+    [matMenuTriggerFor]="menu"
+  >
+    <i class="material-icons"> person_outline </i>{{ name }}
     <mat-menu #menu="matMenu">
       <button mat-menu-item>My Account</button>
       <button mat-menu-item>Users</button>

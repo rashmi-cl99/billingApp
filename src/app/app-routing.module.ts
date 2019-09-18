@@ -27,6 +27,11 @@ const routes: Routes = [
       )
   },
   {
+    path: "sales",
+    loadChildren: () =>
+      import("./modules/sales/sales.module").then(m => m.salesModule)
+  },
+  {
     path: "**",
     redirectTo: "/login",
     pathMatch: "full"
