@@ -10,3 +10,14 @@
     padding:5%;
 
 }
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+ padding-top: 0px;
+ padding-bottom: 9px;
+ 
+}
+
+::ng-deep .mat-form-field-outline
+{
+  background-color: white;
+  outline-color: white;
+}

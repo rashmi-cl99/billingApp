@@ -3,18 +3,27 @@
         <h2>Users</h2>
       </div>
       <div class="col-6 mt-3 userbtn">
-        <mat-form-field>
+        <!-- <div class="input-container">  -->
         <!-- <mat-icon mat-Perfix>search</mat-icon> -->
-        <input placeholder="Search" class="py-2 px-2 border-0">
-        </mat-form-field>
+        <!-- <mat-icon mat-Perfix>search</mat-icon> -->
+        <!-- <i class="fas fa-search"></i>
+        <input placeholder="Search" class="py-2 px-3 border-0 rounded">  
         <button mat-button class=" bg-primary text-white" (click)="addDialog()">
           Add
         </button>
-      </div>
+      </div>  -->
+      <mat-form-field appearance="outline" >      
+        <input matInput  
+         placeholder="Search Name" [(ngModel)]="searchTerm" (ngModelChange) = "search()">
+       <mat-icon matPrefix>search</mat-icon>
+     </mat-form-field>
+     <button mat-button class=" bg-primary text-white px-2" (click)="addDialog()">
+      Add User
+    </button>   
     </div>
     <div class="container">
     <div class="row m-0">
-      <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let user of userList">
+      <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let user of filteredUsers">
         <mat-card class="font-weight-bold mt-3">
          <div class="row d-flex flex-wrap justify-content-center">
             <ngx-avatar [name]="user.name" [round]="false"></ngx-avatar>

@@ -23,14 +23,17 @@ export interface DialogData {
   styleUrls: ["./user-list.component.scss"]
 })
 export class UserListComponent implements OnInit, OnDestroy {
+  user: any;
+  searchTerm: any;
+  userList = [];
+  filteredUsers = [];
+
   constructor(
     private usersService: UserService,
     private router: Router,
     public dialog: MatDialog,
     private changeDetect: ChangeDetectorRef
   ) {}
-
-  userList = [];
 
   private usersListSubscription: Subscription;
 
@@ -43,6 +46,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.usersListSubscription = this.usersService.usersListSubscription.subscribe(
       res => {
         this.userList = res;
+        this.filteredUsers = res;
       }
     );
   }
@@ -78,8 +82,7 @@ export class UserListComponent implements OnInit, OnDestroy {
             this.userList = res;
           }
         );
-        this.usersService.getUsers().subscribe(res => {
-        });
+        this.usersService.getUsers().subscribe(res => {});
       }
       error => {
         console.log("error response", error);
@@ -109,5 +112,11 @@ export class UserListComponent implements OnInit, OnDestroy {
       hasBackdrop: false
     });
     dialogRef.afterClosed().subscribe(result => {});
+  }
+  search(): void {
+    let term = this.searchTerm;
+    this.filteredUsers = this.userList.filter(function(tag) {
+      return tag.name.indexOf(term) >= 0;
+    });
   }
 }
