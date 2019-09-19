@@ -15,8 +15,8 @@
       <mat-label>Choose Store</mat-label>
 
       <mat-select name="shopSelected" [(ngModel)]="shopSelected">
-        <mat-option *ngFor="let shop of shops" [value]="shop.value">
-          {{ shop.viewValue }}
+        <mat-option *ngFor="let shop of shops" [value]="shop.id">
+          {{ shop.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>

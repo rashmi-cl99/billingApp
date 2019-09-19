@@ -58,33 +58,30 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log(this.loginForm);
     if (this.loginForm.valid) {
-      //satifies condition only when login form is valid
       this.userManagementService.submitForm(this.loginForm.value).subscribe(
         res => {
-          // if (res.status == "success") {
-            const { token, role_id, user_id, name } = res;
+          console.log(res);
+          console.log('response', res)
+            const { token, role, user_id ,name} = res;
             localStorage.setItem("token", token);
-            localStorage.setItem("userId", user_id);
-            localStorage.setItem("roleId", role_id);
-            localStorage.setItem("name", name);
+            // localStorage.setItem("userId", user_id);
+            // localStorage.setItem("roleId", role);
+            // localStorage.setItem("name", name);
             this.router.navigate(["/users"]);
-          // } else {
-          //   Swal.fire({
-          //     type: "error",
-          //     title: res.message
-          //   });
-          // }
+         
         },
         error => {
           Swal.fire("login fail", error);
           Swal.fire({
-            type: "error",
-            title: "Oops...",
-            text: error.message
+            type: 'error',
+            title: 'Oops...',
+            text: error.message,
           });
         }
       );
     }
   }
+ 
 }

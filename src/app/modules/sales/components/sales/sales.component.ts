@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material";
 import { BehaviorSubject } from "rxjs";
-import { SalesService } from '../../services/sales.service';
+import { SalesService } from "../../services/sales.service";
 
 @Component({
   selector: "app-sales",
@@ -27,8 +27,7 @@ export class SalesComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.salesService.getStoreData().subscribe(res => {
-      // consol
-      // this.shops = res;
+      this.shops = res;
     });
     this.categorynameform = new FormGroup({});
 
@@ -197,7 +196,11 @@ export class SalesComponent implements OnInit {
     console.log(
       "shopSelectedshopSelectedshopSelected",
       this.shopSelected,
-      this.dateSelected
+      new Date(this.dateSelected).getFullYear() +
+        "-" +
+        new Date(this.dateSelected).getMonth()+1 +
+        "-" +
+        new Date(this.dateSelected).getDate()
     );
   }
 

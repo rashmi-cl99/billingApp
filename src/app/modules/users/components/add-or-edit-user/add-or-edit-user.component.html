@@ -1,0 +1,67 @@
+<h1 mat-dialog-title class="text-center">{{dialogData.type}}</h1>
+<div mat-dialog-content>
+  <form [formGroup]="registerForm">
+    <div class="form-group d-flex flex-row flex-wrap">
+      <mat-form-field class="col-12">
+        <input
+          matInput
+          placeholder="Name"
+          formControlName="name"
+          class="form-control"
+        />
+        <mat-error *ngIf="registerForm.get('name').invalid">{{
+          getErrorMessagename()
+        }}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-12">
+        <input
+          matInput
+          placeholder="Phone"
+          formControlName="phone"
+          class="form-control "
+        />
+        <mat-error *ngIf="registerForm.get('phone').invalid">{{
+          getErrorMessage1()
+        }}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-12">
+        <input
+          matInput
+          placeholder="Email"
+          formControlName="email"
+          class="form-control "
+        />
+        <mat-error *ngIf="registerForm.get('email').invalid">{{
+          getErrorMessage()
+        }}</mat-error>
+      </mat-form-field>
+     
+      <div class="px-3">
+        <mat-form-field>
+          <mat-label>Role</mat-label>
+          <mat-select formControlName="role">
+            <mat-option *ngFor="let role of roles" [value]="role.id">
+              {{ role.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <mat-form-field>
+        <mat-label>Shop</mat-label>
+        <mat-select formControlName="shop" multiple>
+          <mat-option *ngFor="let shop of shops" [value]="shop.id">
+            {{ shop.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="col-7 text-right text-white">
+        <button mat-button class=" bg-primary "(click)="registerSubmit()">Submit</button>
+      </div>
+     <div class="col-4 text-left text-white">
+        <button mat-button class=" bg-primary " [mat-dialog-close]="true" cdkFocusInitial>Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- (ngSubmit)="registerSubmit()" -->

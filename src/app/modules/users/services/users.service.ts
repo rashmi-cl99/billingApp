@@ -1,45 +1,70 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, EventEmitter } from "@angular/core";
 import { map, catchError } from "rxjs/operators";
-import { Observable} from "rxjs";
+import { Observable, Subject } from "rxjs";
 @Injectable({
   providedIn: "root"
 })
 export class UserService {
   constructor(private httpClient: HttpClient) {}
-  users = [
-    {
-      conformpwd: "sdfdsfdsfdsf",
-      email_id: "dsfsdf@sdf.com",
-      name: "charan",
-      password: "sdfdsfdsfdsf",
-      phone_num: "2343243243",
-      id: 0
-    }
-  ];
-  submitForm(data) {
-    console.log("registerform", data);
-    return this.httpClient.post("http://takatuf.zysk.in/login", data);
+  
+  usersListSubscription = new EventEmitter<any[]>();
+
+  
+  getUsers() {
+  return this.httpClient.get("http://localhost:8000/add-user/").pipe(
+      map((res: any) => {
+        this.usersListSubscription.emit(res);
+        return res;
+      }),
+      catchError((error: any) => Observable.throw(error || "Server error"))
+    );
+
   }
-  userRegistration(fd) {
-    const reformattedData = {
-      ...fd,
-      id: this.users.length
-    };
-    this.users.push(reformattedData);
+
+  statusdetail(id, is_active) {
+    return this.httpClient
+      .post(`http://localhost:8000/enable-disable/${id}/`, is_active)
+      .pipe(
+        map((res: any) => res),
+        catchError((error: any) => Observable.throw(error || "Server error"))
+      );
   }
-  // getUsers() {
-  //   return this.users;
-  // }
-  getUser(id) {
-    return this.users.filter(user => {
-      if (+user.id === +id) {
-        return user;
-      }
-    })[0];
+  getRoles() {
+    return this.httpClient.get("http://localhost:8000/role-list/").pipe(
+      map((res: any) => res),
+      catchError((error: any) => Observable.throw(error || "Server error"))
+    );
   }
-  updateUser(userDetails) {
-    const users = this.users;
+  getShops() {
+    return this.httpClient.get("http://localhost:8000/shops-list/").pipe(
+      map((res: any) => res),
+      catchError((error: any) => Observable.throw(error || "Server error"))
+    );
   }
- 
+  registerSubmit(data) {
+    return this.httpClient
+      .post("http://localhost:8000/add-user/", data)
+      .pipe(
+        map((res: any) => res),
+        catchError((error: any) => Observable.throw(error || "Server error"))
+      );
+  }
+
+  getUserdetail(id) {
+    return this.httpClient.get(`http://localhost:8000/add-user/${id}/`).pipe(
+      map((res: any) => res),
+      catchError((error: any) => Observable.throw(error || "Server error"))
+    );
+  }
+
+  updateUser(id,userDetails) {
+    return this.httpClient
+      .patch(`http://localhost:8000/add-user/${id}/`, userDetails)
+      .pipe(
+        map((res: any) => res),
+        catchError((error: any) => Observable.throw(error || "Server error"))
+      );
+  }
+   
 }
