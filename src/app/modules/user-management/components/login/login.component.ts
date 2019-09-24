@@ -66,18 +66,18 @@ export class LoginComponent implements OnInit {
         res => {
                   
           console.log('response', res)
-          if(res.status == 'success') {
+          // if(res.status == 'success') {
             const { token, user_id ,name} = res;
             localStorage.setItem("token", token);
             localStorage.setItem("userId", user_id);
             localStorage.setItem("name", name);
             this.router.navigate(["/users"]);
-          } else {
-            Swal.fire({
-              type: 'error',
-              title: res.message,
-            })
-          }
+          // } else {
+          //   Swal.fire({
+          //     type: 'error',
+          //     title: res.message,
+          //   })
+          // }
           
               },
         error => {
