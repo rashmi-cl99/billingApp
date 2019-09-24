@@ -15,7 +15,7 @@ export interface PeriodicElement {
   styleUrls: ["./dashboard.component.scss"]
 })
 export class DashboardComponent implements OnInit {
-  displayedColumns: string[] = ["id", "name", "address", "gst_no"];
+  displayedColumns: string[] = [ "name", "address", "gst_no"];
   dataSource: MatTableDataSource<Array<any>>;
   options = [
     {

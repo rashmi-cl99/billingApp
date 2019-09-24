@@ -90,7 +90,7 @@ export class RegisterComponent implements OnInit {
         name,
         password
       };
-      this.userManagementService.userRegistration(fd);
+      //this.userManagementService.userRegistration(fd);
       this.router.navigate(["/user"]);
       // this.registerservice.submitForm(fd).subscribe(
       //   res => {

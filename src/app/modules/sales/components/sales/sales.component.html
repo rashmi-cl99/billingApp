@@ -15,7 +15,7 @@
       <mat-label>Choose Store</mat-label>
 
       <mat-select name="shopSelected" [(ngModel)]="shopSelected">
-        <mat-option *ngFor="let shop of shops" [value]="shop.id">
+        <mat-option *ngFor="let shop of shops" [value]="shop.id" class="robot-regular headertxt">
           {{ shop.name }}
         </mat-option>
       </mat-select>
@@ -46,7 +46,7 @@
 
 <div class="d-flex flex-row flex-wrap px-0 col-lg-11 col-12 mx-auto ">
   <div class="col-md-2 col-12">
-    <p class="bg-dark-grey my-0 py-3 px-3">Choose category</p>
+    <p class="bg-dark-grey my-0 py-3 px-3 robot-bold thtext theadbg">Choose category</p>
     <div class="bg-white" style="min-height: 300px">
       <div
         [ngClass]="{ 'bg-success': category.id === categorySelected }"
@@ -61,38 +61,39 @@
           class="form-check-input "
           [id]="category.id"
         />
-        <label class="form-check-label" [for]="category.id">{{
+        <label class="form-check-label robot-regular headertxt" [for]="category.id">{{
           category.name
         }}</label>
-        <span class="ml-auto px-3">{{ category.count }}</span>
+        <span class="ml-auto px-3  robot-regular font-sm headertxt">{{ category.count }}</span>
       </div>
     </div>
   </div>
   <div class=" col-md-10 col-12">
-    <p class="bg-dark-grey my-0 py-3 px-3">Enter sales data</p>
+    <p class="bg-dark-grey my-0 py-3 px-3 robot-regular headertxt main-th-bg">Enter sales data</p>
     <table mat-table [dataSource]="dataSource" class=" mat-elevation-z8 w-100">
       <tr ng-form="myForm">
         <ng-container matColumnDef="id">
           <th
-            class="mw-100"
+            class="mw-100 robot-bold thtext theadbg"
             mat-header-cell
             *matHeaderCellDef
             [attr.rowspan]="2"
+            
           >
             ID
           </th>
 
-          <td mat-cell *matCellDef="let element" class="align-top">
+          <td mat-cell *matCellDef="let element" class="align-top font-sm robot-regular headertxt tdcolor">
             {{ element.id }}.
           </td>
         </ng-container>
         <!-- Itemdesc Column -->
         <ng-container matColumnDef="itemdescription">
-          <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">
+          <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2" class="robot-bold thtext theadbg">
             ITEM DESCRIPTION
           </th>
 
-          <td mat-cell *matCellDef="let element" class="align-top">
+          <td mat-cell *matCellDef="let element" class="align-top font-sm robot-regular headertxt tdcolor">
             <div *ngFor="let item of element.itemdescription">
               <p class="my-1">
                 <span>{{ item.name }}</span
@@ -103,8 +104,8 @@
         </ng-container>
         <!-- sales -->
         <ng-container matColumnDef="sales">
-          <th mat-header-cell *matHeaderCellDef>SALES</th>
-          <td mat-cell *matCellDef="let element" class="align-top">
+          <th mat-header-cell *matHeaderCellDef class="align-top robot-bold thtext theadbg">SALES</th>
+          <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor" >
             <ng-container
               *ngIf="
                 element.id == editRowID || editRowID === null;
@@ -164,8 +165,8 @@
 
         <!------pos-->
         <ng-container matColumnDef="amount">
-          <th mat-header-cell *matHeaderCellDef>AMOUNT</th>
-          <td mat-cell *matCellDef="let element" class="align-top">
+          <th mat-header-cell *matHeaderCellDef class="robot-bold thtext theadbg">AMOUNT</th>
+          <td mat-cell *matCellDef="let element" class="align-top font-sm robot-regular headertxt tdcolor">
             <ng-container
               *ngIf="
                 element.id == editRowID || editRowID === null;
@@ -223,8 +224,8 @@
 
         <!-------------purchase----------->
         <ng-container matColumnDef="purchase">
-          <th mat-header-cell *matHeaderCellDef>PURCHASE</th>
-          <td mat-cell *matCellDef="let element" class="align-top">
+          <th mat-header-cell *matHeaderCellDef class="robot-bold thtext theadbg">PURCHASE</th>
+          <td mat-cell *matCellDef="let element" class="align-top font-sm robot-regular headertxt tdcolor">
             <ng-container
               *ngIf="
                 element.id == editRowID || editRowID === null;
@@ -258,8 +259,8 @@
         </ng-container>
 
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>ACTIONS</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="robot-bold thtext theadbg">ACTIONS</th>
+          <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
             <button
               *ngIf="editRowID !== null"
               mat-icon-button

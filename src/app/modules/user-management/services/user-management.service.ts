@@ -19,18 +19,6 @@ export class UserManagementService {
   }
 
 
-  userRegistration(fd) {
-    const reformattedData = {
-      ...fd,
-      id: this.users.length
-    };
-    this.users.push(reformattedData);
-  }
-
-  getUsers() {
-    return this.users;
-  }
-
   forgotpwd(data) {
     return this.httpClient
       .post("http://localhost:8000/password-reset/", data)
@@ -43,6 +31,15 @@ export class UserManagementService {
   resetpwd(data) {
     return this.httpClient
       .post("http://localhost:8000/reset_password_confirm/", data)
+      .pipe(
+        map((res: any) => res),
+        catchError((error: any) => Observable.throw(error || "Server error"))
+      );
+  }
+
+  changepwd(data) {
+    return this.httpClient
+      .post("http://localhost:8000/change-password/", data)
       .pipe(
         map((res: any) => res),
         catchError((error: any) => Observable.throw(error || "Server error"))

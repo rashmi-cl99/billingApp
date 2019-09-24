@@ -12,7 +12,7 @@
           Add
         </button>
       </div>  -->
-      <mat-form-field appearance="outline" >      
+      <mat-form-field appearance="outline"class="font-xs robot-regular headertxt" >      
         <input matInput  
          placeholder="Search Name" [(ngModel)]="searchTerm" (ngModelChange) = "search()">
        <mat-icon matPrefix>search</mat-icon>
@@ -30,19 +30,19 @@
           </div>
           <div class="row d-flex flex-wrap justify-content-center mt-2">      
             <div class="col-lg-8 col-md-8 col-9"> 
-              <div class="text-center">{{user.name }}</div>
-              <div class="text-center">{{ user.email }}</div>
-              <div class="text-center">{{ user.phone }}</div>
+              <div class="text-center font-md robot-regular headertxt">{{user.name }}</div>
+              <div class="text-center font-sm robot-regular headertxt">{{ user.email }}</div>
+              <div class="text-center font-sm robot-regular headertxt">{{ user.phone }}</div>
             </div>
           </div>
           <div class="row text-left">
             <div class="col-6">
               <p (click)="editdetails(user.id)"
-              (click)="editDialog(user)"class="mb-0"><mat-icon><small>edit</small></mat-icon>Edit</p>
+              (click)="editDialog(user)"class="mb-0 font-lgl robot-regular headertxt"><mat-icon class="font-lgl mb-0 ml-2">edit</mat-icon>Edit</p>
             </div>
             <div class="col-6 text-right">
               <p  
-              (click)="statusdetail(user.id, user.is_active)" class="mb-0"><mat-icon><small>sync_disabled</small></mat-icon> {{ user.is_active === true ? "Disable" : "Enable" }}</p>
+              (click)="statusdetail(user.id, user.is_active)" class="mb-0 font-lgl headertxt mr-2"><mat-icon class="font-lgl mb-0">sync_disabled</mat-icon> {{ user.is_active === true ? "Disable" : "Enable" }}</p>
             </div>
           </div>
         </mat-card> 
@@ -50,5 +50,5 @@
      </div>
     </div>
     <footer>
-        <p class="small text-center">Copyright &copy;2019</p>
-    </footer>
+      <p class="small text-center">Copyright &copy;2019</p>
+     </footer>

@@ -13,6 +13,8 @@ import {
 } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
+import { resolve } from 'path';
+import { reject } from 'q';
 
 @Injectable({
   providedIn: "root"
@@ -81,4 +83,12 @@ export class AuthInterceptorService implements HttpInterceptor {
       );
     }
   }
+
+  public isAuthenticated(): boolean 
+  {
+    const token = localStorage.getItem('token');
+    if(token != '')
+    return true;
+  }
+ 
 }

@@ -1,0 +1,238 @@
+<form class="container mt-4">
+  <div class="row px-2">
+     <div class="col-lg-3 col-md-4 col-12">
+      <mat-form-field>
+        <mat-label>Shop</mat-label>
+        <mat-select name="shopSelected" [(ngModel)]="shopSelected">
+          <mat-option *ngFor="let shop of shops" [value]="shop.id">
+            {{ shop.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+     </div>
+      
+     <div class="col-lg-3 col-md-4 col-12">
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select name="typeSelected" [(ngModel)]="typeSelected">
+          <mat-option *ngFor="let type of types"[value]="type">
+            {{ type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+     </div>
+           
+     <div class="col-lg-3 col-md-4 col-12">
+     <mat-form-field>
+          <input name="dateSelected" matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="dateSelected">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+  </form>
+  <div class="col-12 text-center">
+  <button mat-button class=" bg-primary text-white"(click)="onClickGetCategory()" (click)="onSubmit()">Report Generate</button>
+  </div>
+<!--------------------------------Cash tabel----------------------------------------------->
+  <div class="example-container d-flex flex-wrap justify-content-center" *ngIf="typeSelected === 'cash' ">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mt-3">
+      <!-- sl.no Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">
+          Sl.No
+        </th>
+  
+        <td mat-cell *matCellDef="let element">
+         
+            {{ element.id }}
+         
+        </td>
+      </ng-container>
+  
+      <!-- Itemdescription Column -->
+      <ng-container matColumnDef="itemdescription">
+        <th mat-header-cell *matHeaderCellDef>Item description</th>
+        <td mat-cell *matCellDef="let element">
+          
+            {{ element.itemdescription }}
+
+        </td>
+      </ng-container>
+      <!------openingquantity-->
+      <ng-container matColumnDef="openingquantity">
+        <th mat-header-cell *matHeaderCellDef>openingquantity</th>
+        <td mat-cell *matCellDef="let element">
+        
+            {{ element.openingquantity }}
+        
+        </td>
+      </ng-container>
+     
+      <!--------purchase------->
+      <ng-container matColumnDef="purchase">
+        <th mat-header-cell *matHeaderCellDef>purchase</th>
+        <td mat-cell *matCellDef="let element">
+          
+            {{ element.purchase }}
+        
+        </td>
+      </ng-container>
+      <!-------------sales----------->
+      <ng-container matColumnDef="sales">
+        <th mat-header-cell *matHeaderCellDef>Sales</th>
+        <td mat-cell *matCellDef="let element">
+         
+            {{ element.sales }}
+         
+        </td>
+      </ng-container>
+      <!------------------closing quantity-------------->
+      <ng-container matColumnDef="closing">
+        <th mat-header-cell *matHeaderCellDef>Closing</th>
+        <td mat-cell *matCellDef="let element">
+          
+            {{ element.closing }}
+          
+        </td>
+      </ng-container>
+  
+      <!-- discount Column -->
+      <ng-container matColumnDef="discount_rate">
+        <th mat-header-cell *matHeaderCellDef>Discount</th>
+        <td mat-cell *matCellDef="let element">
+         
+            {{ element.discount_rate }}
+         
+        </td>
+      </ng-container>
+  
+      <!-- total Column -->
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef>Total</th>
+        <td mat-cell *matCellDef="let element">
+         
+            {{ element.total }}
+          
+        </td>
+      </ng-container>
+     
+  
+      <!-- Header row second group -->
+      <ng-container matColumnDef="header-row-second-group">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [attr.colspan]="5"
+          class="text-right"
+        >
+          Quantity
+        </th>
+      </ng-container>
+  
+      <tr
+        mat-header-row
+        *matHeaderRowDef="['header-row-second-group']"
+      ></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    </div>
+    
+ <!-------------------------------Pos tabel------------------------------------->
+
+ <div class="example-container d-flex flex-wrap justify-content-center" *ngIf="typeSelected === 'pos' ">
+  <table mat-table [dataSource]="dataSourcepos" class="mat-elevation-z8 mt-3">
+    <!-- sl.no Column -->
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">
+        Sl.No
+      </th>
+
+      <td mat-cell *matCellDef="let element">
+       
+          {{ element.id }}
+       
+      </td>
+    </ng-container>
+
+    <!-- Itemdescription Column -->
+    <ng-container matColumnDef="itemdescription">
+      <th mat-header-cell *matHeaderCellDef>Item Description</th>
+      <td mat-cell *matCellDef="let element">
+        
+          {{ element.itemdescription }}
+    
+      </td>
+    </ng-container>
+    <!------openingquantity-->
+    <ng-container matColumnDef="quantity">
+      <th mat-header-cell *matHeaderCellDef>Quantity</th>
+      <td mat-cell *matCellDef="let element">
+        
+          {{ element.quantity }}
+        
+      </td>
+    </ng-container>
+   
+    <!-- discount Column -->
+    <ng-container matColumnDef="discount_rate">
+      <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2">Discount</th>
+      <td mat-cell *matCellDef="let element">
+          {{ element.discount_rate }}
+      </td>
+    </ng-container>
+
+     <!-- Amount Column -->
+
+     <ng-container matColumnDef="pos1">
+      <th mat-header-cell *matHeaderCellDef>POS1</th>
+      <td mat-cell *matCellDef="let element">
+    
+          {{ element.pos1 }}
+      
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="pos2">
+      <th mat-header-cell *matHeaderCellDef>POS2</th>
+      <td mat-cell *matCellDef="let element">
+    
+          {{ element.pos2 }}
+        
+      </td>
+    </ng-container>
+
+
+    <!-- total Column -->
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef>Total</th>
+      <td mat-cell *matCellDef="let element">
+        
+          {{element.total}}
+        
+      </td>
+    </ng-container>
+   
+
+    <!-- Header row second group -->
+    <ng-container matColumnDef="header-row-second-group">
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        [attr.colspan]="6"
+        class="text-right"
+      >
+        Amount
+      </th>
+    </ng-container>
+
+    <tr
+      mat-header-row
+      *matHeaderRowDef="['header-row-second-group']"
+    ></tr>
+    <tr mat-header-row *matHeaderRowDef="displayedColumnspos"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumnspos"></tr>
+  </table>
+  </div>
+  

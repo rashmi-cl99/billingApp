@@ -8,9 +8,10 @@ import { userManagementRouting } from "./routes/user-management-routing.module";
 import { SharedModule } from "src/app/shared/shared.module";
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @NgModule({
-  declarations: [RegisterComponent, LoginComponent, ForgotPasswordComponent, ResetPasswordComponent],
+  declarations: [RegisterComponent, LoginComponent, ForgotPasswordComponent, ResetPasswordComponent, ChangePasswordComponent],
   imports: [
     CommonModule,
     FormsModule,
