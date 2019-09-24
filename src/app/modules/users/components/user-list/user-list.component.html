@@ -38,11 +38,11 @@
           <div class="row text-left">
             <div class="col-6">
               <p (click)="editdetails(user.id)"
-              (click)="editDialog(user)"class="mb-0 font-lgl robot-regular headertxt"><mat-icon class="font-lgl mb-0 ml-2">edit</mat-icon>Edit</p>
+              (click)="editDialog(user)"class="mb-0 font-xs robot-regular headertxt"><mat-icon class="font-xs mb-0 ml-2">edit</mat-icon>Edit</p>
             </div>
             <div class="col-6 text-right">
               <p  
-              (click)="statusdetail(user.id, user.is_active)" class="mb-0 font-lgl headertxt mr-2"><mat-icon class="font-lgl mb-0">sync_disabled</mat-icon> {{ user.is_active === true ? "Disable" : "Enable" }}</p>
+              (click)="statusdetail(user.id, user.is_active)" class="mb-0 font-xs headertxt mr-2"><mat-icon class="font-xs mb-0">sync_disabled</mat-icon> {{ user.is_active === true ? "Disable" : "Enable" }}</p>
             </div>
           </div>
         </mat-card> 
