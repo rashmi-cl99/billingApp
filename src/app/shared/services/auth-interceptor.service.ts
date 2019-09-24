@@ -83,11 +83,6 @@ export class AuthInterceptorService implements HttpInterceptor {
     }
   }
 
-  public isAuthenticated(): boolean 
-  {
-    const token = localStorage.getItem('token');
-    if(token != '')
-    return true;
-  }
+  
  
 }

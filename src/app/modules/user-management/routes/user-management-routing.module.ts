@@ -5,12 +5,14 @@ import { RegisterComponent } from "../components/register/register.component";
 import { ForgotPasswordComponent } from "../components/forgot-password/forgot-password.component";
 import { ResetPasswordComponent } from "../components/reset-password/reset-password.component";
 import { ChangePasswordComponent } from '../components/change-password/change-password.component';
-import { AuthGuard } from 'src/app/shared/services/auth.guard';
+import { LoginGuard } from 'src/app/shared/guards/login.guard';
+
 
 const routes: Routes = [
   {
     path: "login",
     component: LoginComponent,
+    canActivate: [LoginGuard],
   },
   {
     path: "register",
@@ -27,7 +29,6 @@ const routes: Routes = [
   {
     path: "change-password",
     component: ChangePasswordComponent,
-    canActivate: [AuthGuard],
   },
 ];
 

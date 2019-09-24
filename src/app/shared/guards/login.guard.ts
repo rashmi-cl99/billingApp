@@ -10,7 +10,7 @@ export class LoginGuard implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    const token: string = sessionStorage.getItem('token');
+    const token: string = localStorage.getItem('token');
     if (token) {
       this.router.navigate(['/users']);
       return false;
