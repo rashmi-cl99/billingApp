@@ -17,10 +17,11 @@ export class SalesComponent implements OnInit {
   dataSource = new BehaviorSubject([]);
   shops = [];
   shopSelected = null;
-  dateSelected = null;
+  dateSelected = new Date();
   categoriesData = [];
   categorySelected = null;
   salesData = [];
+  maxDate = new Date();
   constructor(
     private changeDetect: ChangeDetectorRef,
     private salesService: SalesService
@@ -30,127 +31,12 @@ export class SalesComponent implements OnInit {
       this.shops = res;
     });
     this.categorynameform = new FormGroup({});
-
-    // this.userService.itemdescriptions().subscribe(
-    //   res => {
-    //     console.log("success response", res);
-    //     this.itemdescription = res;
-    //     const reformatData = res.map((data, i) => {
-    //       return {
-    //         itemdescription: `${data.liquor.name} - INR ${data.liquor.rate}
-    //                               OpeningQuantity: ${data.opening_quantity}`
-    //       };
-    //     });
-    //     console.log("result", reformatData);
-    //     this.dataSource = new MatTableDataSource(reformatData);
-    //   },
-    //   error => {
-    //     console.log("error", error);
-    //   }
-    // );
-    let reformatData = {
-      isCompleted: true,
-      tableData: [
-        {
-          id: 1,
-          itemdescription: [
-            { name: "bira white", value: "500ml" },
-            { name: "INR", value: 150 },
-            { name: "opening quantity", value: "752" },
-            { name: "closing quantity", value: "752" }
-          ],
-          sales: {
-            cash: { name: "cash", value: 2 },
-            pos: [{ name: "POS 1", value: 1 }, { name: "POS 2", value: 1 }]
-          },
-          amount: [
-            { name: "total", value: null },
-            { name: "discount(%)", value: 43 },
-            { name: "discount", value: "" },
-            { name: "total amount", value: "" }
-          ],
-          purchase: [{ name: "quantity", value: "20" }],
-          action: ""
-        }
-        // {
-        //   id: 2,
-        //   itemdescription: [
-        //     { name: "bira black", value: "500ml" },
-        //     { name: "INR", value: "150" },
-        //     { name: "opening quantity", value: "752" },
-        //     { name: "closing quantity", value: "752" }
-        //   ],
-        //   sales: {
-        //     cash: { name: "cash", value: "100" },
-        //     pos: [
-        //       { name: "POS 1", value: "123" },
-        //       { name: "POS 2", value: "123" }
-        //     ]
-        //   },
-        //   amount: [
-        //     { name: "total", value: "" },
-        //     { name: "discount(%)", value: "43%" },
-        //     { name: "discount", value: "" },
-        //     { name: "total amount", value: "" }
-        //   ],
-        //   purchase: [{ name: "quantity", value: "30" }],
-        //   action: ""
-        // },
-        // {
-        //   id: 3,
-        //   itemdescription: [
-        //     { name: "bira red", value: "500ml" },
-        //     { name: "INR", value: "150" },
-        //     { name: "opening quantity", value: "752" },
-        //     { name: "closing quantity", value: "752" }
-        //   ],
-        //   sales: {
-        //     cash: { name: "cash", value: "100" },
-        //     pos: [
-        //       { name: "POS 1", value: "123" },
-        //       { name: "POS 2", value: "123" }
-        //     ]
-        //   },
-        //   amount: [
-        //     { name: "total", value: "" },
-        //     { name: "discount(%)", value: "43%" },
-        //     { name: "discount", value: "" },
-        //     { name: "total amount", value: "" }
-        //   ],
-        //   purchase: [{ name: "quantity", value: "40" }],
-        //   action: ""
-        // }
-      ]
-    };
-    this.salesData = reformatData.tableData;
-    this.editRowID = reformatData.isCompleted ? "" : null;
-    this.dataSource.next([...this.salesData]);
-
-    this.categoriesData = [
-      {
-        id: 1,
-        name: "Beer",
-        count: 15,
-        completed: true
-      },
-      {
-        id: 2,
-        name: "Brandy",
-        count: 12,
-        completed: false
-      },
-      {
-        id: 3,
-        name: "Gin",
-        count: 15,
-        completed: true
-      }
-    ];
   }
   displayedColumns: string[] = [
     "id",
     "itemdescription",
     "sales",
+    "closing_quantity",
     "amount",
     "purchase",
     "action"
@@ -160,51 +46,154 @@ export class SalesComponent implements OnInit {
     // this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  onChangeAmount(ev) {
-    console.log("evevevev", ev);
-    console.log("editRowID", this.editRowID);
-
-    this.salesData = this.salesData.map((liquor, i) => {
-      if (i + 1 === this.editRowID) {
-        return {
-          ...liquor,
-          amount: [
-            { name: "total", value: ev },
-            { name: "discount(%)", value: 50 },
-            {
-              name: "discount",
-              value: ev - (liquor.amount[2].value / 100) * ev
-            },
-            {
-              name: "total amount",
-              value: (liquor.amount[2].value / 100) * ev
-            }
-          ]
-        };
-      } else {
-        return { ...liquor };
-      }
-    });
-
-    console.log("salesDatasalesData", this.salesData);
-    // this.dataSource.next(this.salesData);
-    // this.dataSource.next([...this.salesData]);
-    this.changeDetect.detectChanges();
-  }
-
   onClickGetCategory() {
-    console.log(
-      "shopSelectedshopSelectedshopSelected",
-      this.shopSelected,
-      new Date(this.dateSelected).getFullYear() +
+    this.categorySelected = null;
+
+    const fd = {
+      shop: this.shopSelected,
+      date:
+        new Date(this.dateSelected).getFullYear() +
         "-" +
-        new Date(this.dateSelected).getMonth()+1 +
+        (+new Date(this.dateSelected).getMonth() + 1) +
         "-" +
         new Date(this.dateSelected).getDate()
-    );
+    };
+    this.salesService.getCategoryList(fd).subscribe(res => {
+      this.categoriesData = res;
+    });
   }
 
-  onChangeSalesQuantity(event) {}
+  getReformatData(res) {
+    let returnData = res.map((liquor, i) => {
+      const totalCash = liquor.cash + this.getPosValue(liquor.posmachine);
+      return {
+        index: i + 1,
+        ...liquor,
+        totalCash: totalCash,
+        total: (totalCash * liquor.INR).toFixed(),
+        total_amount: (totalCash * liquor.INR - liquor.discount).toFixed(),
+        action: ""
+      };
+    });
+    return returnData;
+  }
 
-  submitSalesData() {}
+  onClickCategory(id) {
+    this.categorySelected = id;
+
+    const fd = {
+      shop: this.shopSelected,
+      date:
+        new Date(this.dateSelected).getFullYear() +
+        "-" +
+        (+new Date(this.dateSelected).getMonth() + 1) +
+        "-" +
+        new Date(this.dateSelected).getDate(),
+      category: id
+    };
+    this.salesService.getLiquorList(fd).subscribe(res => {
+      console.log("response of sales DAta", res);
+      this.salesData = this.getReformatData(res.data);
+      this.editRowID = res.sales_data_available ? "" : null;
+      this.dataSource.next([...this.salesData]);
+    });
+  }
+
+  onChangeSalesQuantity(element) {
+    console.log("onChangeSalesQuantity", element);
+    const totalCash = element.cash + this.getPosValue(element.posmachine);
+
+    element.totalCash = totalCash;
+    element.total = (totalCash * element.INR).toFixed();
+    this.onChangeDiscount(element);
+  }
+
+  getPosValue(element) {
+    let posTotal = 0;
+    element.map(posElement => {
+      posTotal += posElement.quantity;
+    });
+
+    return posTotal;
+  }
+
+  onChangeDiscount(element) {
+    console.log("onChangeDiscount", element);
+
+    element.total_amount = (element.total - element.discount).toFixed();
+  }
+
+  isValidLiquor(element) {
+    console.log("elementttt", element);
+    const {
+      cash,
+      closing_quantity,
+      discount,
+      posmachine,
+      purchase_quantity
+    } = element;
+
+    if (
+      cash >= 0 &&
+      cash !== null &&
+      discount >= 0 &&
+      discount !== null &&
+      this.isPosValid(posmachine) &&
+      purchase_quantity >= 0 &&
+      purchase_quantity !== null
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  isPosValid(posmachine) {
+    let valid = -1;
+    posmachine.map((pos, i) => {
+      if (pos.quantity < 0 || pos.quantity === null) {
+        valid = 0;
+      }
+    });
+    return valid === -1 ? true : false;
+  }
+
+  isValidTable() {
+    let valid = -1;
+    if (this.salesData.length > 0) {
+      this.salesData.map((data, i) => {
+        if (this.isValidLiquor(data)) {
+          valid = 0;
+        }
+      });
+    }
+    return valid === -1 ? false : true;
+  }
+
+  submitSalesData() {
+    let fd = this.salesData.map((data, i) => {
+      return {
+        shopliquor: data.id,
+        cash_sell: data.cash,
+        date:
+          new Date(this.dateSelected).getFullYear() +
+          "-" +
+          (+new Date(this.dateSelected).getMonth() + 1) +
+          "-" +
+          new Date(this.dateSelected).getDate(),
+        discount_rate: data.discount,
+        purchase_quantity: data.purchase_quantity,
+        shopposmachine: data.posmachine
+      };
+    });
+    console.log("dfsdfdsfdsf", fd);
+    this.salesService.saveTableData(fd).subscribe(
+      res => {
+        console.log("response success", res);
+      },
+      error => {
+        console.log("response error", error.response);
+      }
+    );
+  }
 }

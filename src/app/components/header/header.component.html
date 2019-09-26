@@ -11,10 +11,15 @@
     class="ml-auto d-flex align-items-center cursor-pointer"
     [matMenuTriggerFor]="menu"
   >
-    <i class="material-icons"> person_outline </i><span class="robot-regular headertxt">{{ username }}</span>
+    <i class="material-icons"> person_outline </i
+    ><span class="robot-regular headertxt">{{ username }}</span>
     <mat-menu #menu="matMenu">
       <button mat-menu-item [routerLink]="['/my-profile']">My Account</button>
-      <button mat-menu-item [routerLink]="['/users']">Users</button>
+
+      <button *ngIf="role === 'Admin'" mat-menu-item [routerLink]="['/users']">
+        Users
+      </button>
+
       <button mat-menu-item (click)="logout()">Logout</button>
     </mat-menu>
   </span>

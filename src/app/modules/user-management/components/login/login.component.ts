@@ -57,29 +57,39 @@ export class LoginComponent implements OnInit {
       : "";
   }
 
- 
   onSubmit() {
     console.log(this.loginForm);
 
     if (this.loginForm.valid) {
       this.userManagementService.submitForm(this.loginForm.value).subscribe(
         res => {
-                  
-          console.log('response', res)
-            const { token, user_id ,name} = res;
-            localStorage.setItem("token", token);
-            localStorage.setItem("userId", user_id);
-            localStorage.setItem("name", name);
+          // if(res.status == 'success') {
+          const { token, user_id, name, role } = res;
+          localStorage.setItem("token", token);
+          localStorage.setItem("userId", user_id);
+          localStorage.setItem("name", name);
+          localStorage.setItem("role", role);
+          if (role === "Admin") {
             this.router.navigate(["/users"]);
-          
-              },
+          } else if (role === "Staff") {
+            this.router.navigate(["/sales"]);
+          } else {
+            this.router.navigate(["/sales/bill"]);
+          }
+          // } else {
+          //   Swal.fire({
+          //     type: 'error',
+          //     title: res.message,
+          //   })
+          // }
+        },
         error => {
           Swal.fire({
-            type: 'error',
-            title: 'Oops...',
-            text: error.error.invalid_credential,
+            type: "error",
+            title: "Oops...",
+            text: error.error.invalid_credential
           });
-          
+
           const validationErrors = error.error;
           if (error.status === 400) {
             Object.keys(validationErrors).forEach(errorKey => {
@@ -91,12 +101,9 @@ export class LoginComponent implements OnInit {
                 });
               }
             });
-           
           }
-         }
+        }
       );
     }
   }
-
-  
 }
