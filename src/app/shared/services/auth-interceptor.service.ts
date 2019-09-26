@@ -13,8 +13,7 @@ import {
 } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
-import { resolve } from 'path';
-import { reject } from 'q';
+
 
 @Injectable({
   providedIn: "root"

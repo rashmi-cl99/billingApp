@@ -85,10 +85,19 @@ export class ChangePasswordComponent implements OnInit {
     };
     this.userManagementService.changepwd(fd).subscribe(
       res => {
-        Swal.fire("success response", res);
+        Swal.fire(
+          {
+        type: 'success',
+        text: 'password changed sucessfully',
+
+          })
       },
       error => {
-        Swal.fire("error response", error);
+        Swal.fire({
+          type: "error",
+          title: "Oops...",
+          text: error.error.error
+        });
       }
     );
   }

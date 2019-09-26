@@ -90,6 +90,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     });
   }
   addDialog() {
+    this.searchTerm = "";
     const dialogRef = this.dialog.open(AddOrEditUserComponent, {
       data: {
         type: "Add User"

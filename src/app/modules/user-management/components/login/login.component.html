@@ -24,6 +24,10 @@
             <mat-error *ngIf="loginForm.get('username').invalid">{{
               getErrorMessage()
             }}</mat-error>
+             <!-----------server error--------->
+           <mat-error *ngIf="loginForm.get('username').errors?.serverError">
+            {{ loginForm.get('username').errors?.serverError }}
+           </mat-error>
           </mat-form-field>
           <mat-form-field
             class="w-100  mt-3"
@@ -51,8 +55,12 @@
             <mat-error *ngIf="loginForm.get('password').invalid">{{
               getErrorMessagepwd()
             }}</mat-error>
+            <!-----------server error--------->
+           <mat-error *ngIf="loginForm.get('password').errors?.serverError">
+              {{ loginForm.get('password').errors?.serverError }}
+           </mat-error>
           </mat-form-field>
-          <div class="mt-3 text-left">
+          <div class="mt-3 text-left cursor-pointer">
             <small
               [routerLink]="['/forgot-password']"
               class="roboto-regular secondarytext"

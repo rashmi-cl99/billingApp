@@ -9,9 +9,10 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { MyProfileComponent } from './components/my-profile/my-profile.component';
 
 @NgModule({
-  declarations: [RegisterComponent, LoginComponent, ForgotPasswordComponent, ResetPasswordComponent, ChangePasswordComponent],
+  declarations: [RegisterComponent, LoginComponent, ForgotPasswordComponent, ResetPasswordComponent, ChangePasswordComponent, MyProfileComponent],
   imports: [
     CommonModule,
     FormsModule,

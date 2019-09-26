@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
         Validators.email,
         Validators.pattern(this.emailPattern)
       ]),
-      password: new FormControl(null, Validators.required)
+      password: new FormControl(null, [Validators.required])
     });
   }
 
@@ -66,26 +66,33 @@ export class LoginComponent implements OnInit {
         res => {
                   
           console.log('response', res)
-          if(res.status == 'success') {
             const { token, user_id ,name} = res;
             localStorage.setItem("token", token);
             localStorage.setItem("userId", user_id);
             localStorage.setItem("name", name);
             this.router.navigate(["/users"]);
-          } else {
-            Swal.fire({
-              type: 'error',
-              title: res.message,
-            })
-          }
           
               },
         error => {
           Swal.fire({
             type: 'error',
             title: 'Oops...',
-            text:error.message,
+            text: error.error.invalid_credential,
           });
+          
+          const validationErrors = error.error;
+          if (error.status === 400) {
+            Object.keys(validationErrors).forEach(errorKey => {
+              const formControl = this.loginForm.get(errorKey);
+              if (formControl) {
+                // activate the error message
+                formControl.setErrors({
+                  serverError: validationErrors[errorKey]
+                });
+              }
+            });
+           
+          }
          }
       );
     }

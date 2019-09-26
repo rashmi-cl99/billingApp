@@ -1,0 +1,82 @@
+<mat-tab-group animationDuration="0ms">
+  <mat-tab label="My Profile">
+    <form [formGroup]="myprofileForm">
+      <div class="form-group d-flex flex-row flex-wrap">
+        <mat-form-field class="col-12">
+          <input
+            matInput
+            placeholder="Name"
+            formControlName="name"
+            class="form-control"
+          />
+          <mat-error *ngIf="myprofileForm.get('name').invalid">{{
+            getErrorMessagename()
+          }}</mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12">
+          <input
+            matInput
+            placeholder="Phone"
+            formControlName="phone"
+            class="form-control "
+          />
+          <mat-error *ngIf="myprofileForm.get('phone').invalid">{{
+            getErrorMessage1()
+          }}</mat-error>
+          <mat-error *ngIf="myprofileForm.get('phone').errors?.serverError">
+            {{ registerForm.get('phone').errors?.serverError }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-12">
+          <input
+            matInput
+            placeholder="Email"
+            formControlName="email"
+            class="form-control "
+          />
+          <mat-error *ngIf="myprofileForm.get('email').invalid">{{
+            getErrorMessage()
+          }}</mat-error>
+          <!-----------server error--------->
+          <mat-error *ngIf="myprofileForm.get('email').errors?.serverError">
+            {{ registerForm.get('email').errors?.serverError }}
+          </mat-error>
+        </mat-form-field>
+        
+       
+        <div class="px-3">
+          <mat-form-field >
+            <mat-label>Role</mat-label>
+            <mat-select formControlName="role" disabled>
+              <mat-option *ngFor="let role of roles" [value]="role.id">
+                {{ role.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="myprofileForm.hasError('required')">
+                This field is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <mat-form-field>
+          <mat-label>Shop</mat-label>
+          <mat-select formControlName="shop" multiple disabled>
+            <mat-option *ngFor="let shop of shops" [value]="shop.id">
+              {{ shop.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="myprofileForm.hasError('required')">
+              This field is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <div class="col-6 text-xl-right text-lg-right text-md-right text-white">
+          <button mat-button class=" robot-bold btnbg "(click)="onSubmit()">Update</button>
+        </div>
+      </div>
+    </form>
+  </mat-tab>
+  <mat-tab label="Change Password">
+    <app-change-password></app-change-password>
+  </mat-tab>
+</mat-tab-group>

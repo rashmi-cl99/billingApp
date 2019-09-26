@@ -49,8 +49,22 @@ export class ForgotPasswordComponent implements OnInit {
         Swal.fire({
           type: 'error',
           title: 'Oops...',
-          text: error.message,
+          text: error.error.error,
         });
+        
+        const validationErrors = error.error;
+        if (error.status === 400) {
+          Object.keys(validationErrors).forEach(errorKey => {
+            const formControl = this.forgotform.get(errorKey);
+            if (formControl) {
+              // activate the error message
+              formControl.setErrors({
+                serverError: validationErrors[errorKey]
+              });
+            }
+          });
+         
+        }
       }
     );
     

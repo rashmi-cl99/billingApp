@@ -23,6 +23,9 @@
         <mat-error *ngIf="registerForm.get('phone').invalid">{{
           getErrorMessage1()
         }}</mat-error>
+        <mat-error *ngIf="registerForm.get('phone').errors?.serverError">
+          {{ registerForm.get('phone').errors?.serverError }}
+        </mat-error>
       </mat-form-field>
       <mat-form-field class="col-12">
         <input
@@ -34,7 +37,32 @@
         <mat-error *ngIf="registerForm.get('email').invalid">{{
           getErrorMessage()
         }}</mat-error>
+        <!-----------server error--------->
+        <mat-error *ngIf="registerForm.get('email').errors?.serverError">
+          {{ registerForm.get('email').errors?.serverError }}
+        </mat-error>
       </mat-form-field>
+
+      <mat-form-field class="col-12">
+        <input
+          matInput
+          placeholder="Password"
+          formControlName="password"
+          class="form-control "
+          [type]="hide ? 'password' : 'text'"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="hide = !hide"
+          aria-label="hide"
+          class="icon"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
+        <mat-hint class="font-xs robot-regular">Minimum 8 character</mat-hint>
+      </mat-form-field>
+      
      
       <div class="px-3">
         <mat-form-field>
@@ -44,6 +72,9 @@
               {{ role.name }}
             </mat-option>
           </mat-select>
+          <mat-error *ngIf="registerForm.hasError('required')">
+              This field is required
+          </mat-error>
         </mat-form-field>
       </div>
       <mat-form-field>
@@ -53,12 +84,17 @@
             {{ shop.name }}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="registerForm.hasError('required')">
+            This field is required
+        </mat-error>
       </mat-form-field>
-      <div class="col-7 text-right text-white">
-        <button mat-button class=" bg-primary "(click)="registerSubmit()">Submit</button>
+    </div>
+    <div class="row">
+      <div class="col-6 text-xl-right text-lg-right text-md-right text-white">
+        <button mat-button class=" robot-bold btnbg " (click)="registerSubmit()" [disabled]="disableSubmit" >Submit</button>
       </div>
-     <div class="col-4 text-left text-white">
-        <button mat-button class=" bg-primary " [mat-dialog-close]="true" cdkFocusInitial>Cancel</button>
+     <div class="col-6 text-xl-left text-lg-left text-md-left text-white">
+        <button mat-button class=" robot-bold btnbg " [mat-dialog-close]="true" cdkFocusInitial>Cancel</button>
       </div>
     </div>
   </form>
