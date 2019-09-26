@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-header",
@@ -7,20 +7,17 @@ import { Router } from '@angular/router';
   styleUrls: ["./header.component.scss"]
 })
 export class HeaderComponent implements OnInit {
-  constructor(private router:Router) {}
+  role = null;
+  username = null;
+  constructor(private router: Router) {}
 
   ngOnInit() {
-    
-     
-    
+    this.role = localStorage.getItem("role");
+    this.username = localStorage.getItem("name");
   }
-  username = localStorage.getItem('name');
 
-  logout()
-  {
+  logout() {
     localStorage.clear();
     this.router.navigate(["/login"]);
   }
-
- 
 }

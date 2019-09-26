@@ -1,26 +1,20 @@
-    <div class="row m-0">
-      <div class="col-6">
+    <div class="row m-0 text-xl-left text-center">
+      <div class="col-xl-3 col-lg-3 col-md-3 col-12">
         <h2>Users</h2>
       </div>
-      <div class="col-6 mt-3 userbtn">
-        <!-- <div class="input-container">  -->
-        <!-- <mat-icon mat-Perfix>search</mat-icon> -->
-        <!-- <mat-icon mat-Perfix>search</mat-icon> -->
-        <!-- <i class="fas fa-search"></i>
-        <input placeholder="Search" class="py-2 px-3 border-0 rounded">  
-        <button mat-button class=" bg-primary text-white" (click)="addDialog()">
-          Add
-        </button>
-      </div>  -->
+      <div class="col-xl-7 col-lg-7 col-md-7 col-8 mt-3 d-flex flex-wrap justify-content-end">
       <mat-form-field appearance="outline"class="font-xs robot-regular headertxt" >      
         <input matInput  
          placeholder="Search Name" [(ngModel)]="searchTerm" (ngModelChange) = "search()">
        <mat-icon matPrefix>search</mat-icon>
      </mat-form-field>
-     <button mat-button class=" bg-primary text-white px-2" (click)="addDialog()">
-      Add User
-    </button>   
     </div>
+     <div class="col-xl-2 col-lg-2 col-md-2 col-4 mt-3 cursor-pointer">
+     <button mat-button class="robot-bold btnbg text-white" (click)="addDialog()">
+      Add User
+    </button>  
+     </div> 
+    
     <div class="container">
     <div class="row m-0">
       <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let user of filteredUsers">
@@ -37,18 +31,17 @@
           </div>
           <div class="row text-left">
             <div class="col-6">
-              <p (click)="editdetails(user.id)"
-              (click)="editDialog(user)"class="mb-0 font-xs robot-regular headertxt"><mat-icon class="font-xs mb-0 ml-2">edit</mat-icon>Edit</p>
+              <p class="mb-0 font-xs robot-regular headertxt"><mat-icon class="font-xs mb-0 ml-2">edit</mat-icon><span (click)="editdetails(user.id)"  (click)="editDialog(user)" class="cursor-pointer">Edit</span></p>
             </div>
-            <div class="col-6 text-right">
-              <p  
-              (click)="statusdetail(user.id, user.is_active)" class="mb-0 font-xs headertxt mr-2"><mat-icon class="font-xs mb-0">sync_disabled</mat-icon> {{ user.is_active === true ? "Disable" : "Enable" }}</p>
+            <div class="col-6 text-right ">
+              <p  class="mb-0 font-xs headertxt mr-2"><mat-icon class="font-xs mb-0">sync_disabled</mat-icon> <span (click)="statusdetail(user.id, user.is_active)" class="cursor-pointer">{{ user.is_active === true ? "Disable" : "Enable" }}</span></p>
             </div>
           </div>
         </mat-card> 
       </div>
      </div>
-    </div>
-    <footer>
+      <footer>
       <p class="small text-center">Copyright &copy;2019</p>
      </footer>
+    </div>
+   

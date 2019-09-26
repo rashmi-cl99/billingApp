@@ -58,8 +58,8 @@ export class ResetPasswordComponent implements OnInit {
   resetpwd() {
     console.log(this.resetForm.valid);
     const fd = {
-      newPassword: this.resetForm.value.newPassword,
-      confirmPassword: this.resetForm.value.confirmPassword,
+      new_password: this.resetForm.value.newPassword,
+      confirm_password: this.resetForm.value.confirmPassword,
       token: this.token
     };
     this.userManagementService.resetpwd(fd).subscribe(
@@ -71,8 +71,23 @@ export class ResetPasswordComponent implements OnInit {
         Swal.fire({
           type: "error",
           title: "Oops...",
-          text: error.message
+          text: error.error.new_password
         });
+        
+          const validationErrors = error.error;
+          if (error.status === 400) {
+            Object.keys(validationErrors).forEach(errorKey => {
+              const formControl = this.resetForm.get(errorKey);
+              if (formControl) {
+                // activate the error message
+                formControl.setErrors({
+                  serverError: validationErrors[errorKey]
+                });
+              }
+            });
+           
+          }
+
       }
     );
   }

@@ -136,8 +136,6 @@ export class SalesComponent implements OnInit {
     if (
       cash >= 0 &&
       cash !== null &&
-      closing_quantity >= 0 &&
-      closing_quantity !== null &&
       discount >= 0 &&
       discount !== null &&
       this.isPosValid(posmachine) &&
