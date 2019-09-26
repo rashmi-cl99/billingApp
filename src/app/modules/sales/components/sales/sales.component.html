@@ -6,16 +6,21 @@
 <div
   class="d-flex flex-row flex-wrap px-0 col-lg-11 col-12 mx-auto justify-content-between align-items-center py-5"
 >
-  <div class="col">
+  <div class="col-lg-4 col-12">
     <h1 class="my-0">Record sales data</h1>
   </div>
 
-  <div class="col d-flex flex-row flex-wrap align-items-center">
+  <div
+    class="col-lg-8 col-12 mt-3 d-flex flex-row flex-wrap align-items-center justify-content-lg-end justify-content-start"
+  >
     <mat-form-field class="mx-2">
       <mat-label>Choose Store</mat-label>
-
       <mat-select name="shopSelected" [(ngModel)]="shopSelected">
-        <mat-option *ngFor="let shop of shops" [value]="shop.id" class="robot-regular headertxt">
+        <mat-option
+          *ngFor="let shop of shops"
+          [value]="shop.id"
+          class="robot-regular headertxt"
+        >
           {{ shop.name }}
         </mat-option>
       </mat-select>
@@ -28,15 +33,18 @@
         placeholder="Choose Date"
         disabled
         [(ngModel)]="dateSelected"
+        [max]="maxDate"
       />
       <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
       <mat-datepicker #dp3 disabled="false"></mat-datepicker>
     </mat-form-field>
     <div>
       <button
-        [disabled]="shopSelected === null && dateSelected === null"
+        mat-raised-button
+        color="primary"
+        [disabled]="shopSelected === null || dateSelected === null"
         (click)="onClickGetCategory()"
-        class="btn bg-primary py-2 text-white"
+        class="btn text-white"
       >
         SUBMIT
       </button>
@@ -45,178 +53,264 @@
 </div>
 
 <div class="d-flex flex-row flex-wrap px-0 col-lg-11 col-12 mx-auto ">
-  <div class="col-md-2 col-12">
-    <p class="bg-dark-grey my-0 py-3 px-3 robot-bold thtext theadbg">Choose category</p>
+  <div class="col-lg-2 col-md-3 col-12">
+    <p class="bg-dark-grey my-0 py-3 px-3 robot-regular headertxt main-th-bg">
+      Choose category
+    </p>
     <div class="bg-white" style="min-height: 300px">
+      <!-- <p class="text-center my-0 pt-3" *ngIf="categoriesData.length === 0">No Categories Found</p> -->
+      <p class="text-center my-0 pt-3" *ngIf="categoriesData.length === 0">
+        (Choose Shop)
+      </p>
+
       <div
-        [ngClass]="{ 'bg-success': category.id === categorySelected }"
+        [ngClass]="{
+          theadbg: category.id === categorySelected
+        }"
         class="d-flex flex-row flex-wrap p-3 cursor-pointer"
         *ngFor="let category of categoriesData"
-        (click)="categorySelected = category.id"
+        (click)="onClickCategory(category.id)"
       >
         <input
           type="checkbox"
           [disabled]="true"
-          [checked]="category.completed"
+          [checked]="category.is_completed"
           class="form-check-input "
           [id]="category.id"
         />
-        <label class="form-check-label robot-regular headertxt" [for]="category.id">{{
-          category.name
-        }}</label>
-        <span class="ml-auto px-3  robot-regular font-sm headertxt">{{ category.count }}</span>
+        <label
+          [ngClass]="{
+            'font-weight-bold': category.id === categorySelected
+          }"
+          class="form-check-label robot-regular headertxt"
+          [for]="category.id"
+          >{{ category.name }}</label
+        >
+        <span
+          [ngClass]="{
+            'font-weight-bold': category.id === categorySelected
+          }"
+          class="ml-auto px-3  robot-regular font-sm headertxt"
+          >{{ category.count }}</span
+        >
       </div>
     </div>
   </div>
-  <div class=" col-md-10 col-12">
-    <p class="bg-dark-grey my-0 py-3 px-3 robot-regular headertxt main-th-bg">Enter sales data</p>
+  <div class=" col-lg-10 col-md-9 col-12">
+    <p class="bg-dark-grey my-0 py-3 px-3 robot-regular headertxt main-th-bg">
+      Enter sales data
+    </p>
     <table mat-table [dataSource]="dataSource" class=" mat-elevation-z8 w-100">
       <tr ng-form="myForm">
         <ng-container matColumnDef="id">
           <th
-            class="mw-100 robot-bold thtext theadbg"
+            class="px-3 robot-bold thtext theadbg"
             mat-header-cell
             *matHeaderCellDef
             [attr.rowspan]="2"
-            
           >
             ID
           </th>
 
-          <td mat-cell *matCellDef="let element" class="align-top font-sm robot-regular headertxt tdcolor">
-            {{ element.id }}.
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class=" font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.index }}.
           </td>
         </ng-container>
         <!-- Itemdesc Column -->
         <ng-container matColumnDef="itemdescription">
-          <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2" class="robot-bold thtext theadbg">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [attr.rowspan]="2"
+            class="robot-bold thtext theadbg"
+          >
             ITEM DESCRIPTION
           </th>
 
-          <td mat-cell *matCellDef="let element" class="align-top font-sm robot-regular headertxt tdcolor">
-            <div *ngFor="let item of element.itemdescription">
-              <p class="my-1">
-                <span>{{ item.name }}</span
-                >: <span class="font-weight-bold">{{ item.value }}</span>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="align-top font-sm robot-regular headertxt tdcolor"
+          >
+            <div class="">
+              <!-- liquor name -->
+              <div class="col-12">
+                <p class="my-2 ">
+                  <span>{{ element.name }}</span>
+                </p>
+              </div>
+              <!-- liquor price -->
+              <p class="my-2 col-12">
+                <span><b>INR:</b> {{ element.INR }}/-</span>
+              </p>
+              <!-- liquor opening_quantity -->
+              <p class="my-2 col-12">
+                <span><b>Opening Qty:</b>{{ element.opening_quantity }}</span>
               </p>
             </div>
           </td>
         </ng-container>
         <!-- sales -->
         <ng-container matColumnDef="sales">
-          <th mat-header-cell *matHeaderCellDef class="align-top robot-bold thtext theadbg">SALES</th>
-          <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor" >
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg px-3"
+          >
+            SALES
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="align-top font-sm robot-regular headertxt tdcolor"
+          >
             <ng-container
               *ngIf="
                 element.id == editRowID || editRowID === null;
                 else textbox
               "
             >
-              <div class="d-flex flex-row flex-wrap my-2">
-                <div class="col">
-                  <label class="">Cash:&nbsp; </label>
-                  <input
-                    required
-                    type="number"
-                    class="col-4 form-control"
-                    matInput
-                    name="input"
-                    [(ngModel)]="element.sales.cash.value"
-                    (ngModelChange)="onChangeSalesQuantity($event)"
-                  />
-                </div>
-                <div class="col d-flex flex-row flex-wrap">
-                  <div
-                    class="col-12 my-1"
-                    *ngFor="let item of element.sales.pos"
-                  >
-                    <span>{{ item.name }}</span
-                    >:
-                    <input
-                      type="number"
-                      class="col-4 form-control"
-                      matInput
-                      name="input"
-                      [(ngModel)]="item.value"
-                    />
-                  </div>
-                </div>
+              <div class="col-12 my-2 d-flex flex-wrap">
+                <label class="font-weight-bold">Cash:&nbsp; </label>
+                <input
+                  required
+                  type="number"
+                  class="col-12 col-lg-4 form-control pl-2"
+                  matInput
+                  name="input"
+                  [(ngModel)]="element.cash"
+                  (ngModelChange)="onChangeSalesQuantity(element)"
+                  [ngClass]="{
+                    'border-red': element.cash < 0 || element.cash === null
+                  }"
+                />
+              </div>
+
+              <div
+                class="col-12 my-2  d-flex flex-wrap"
+                *ngFor="let item of element.posmachine"
+              >
+                <span class="font-weight-bold">pos{{ item.pos }}:&nbsp;</span>
+                <input
+                  type="number"
+                  class="col-12 col-lg-4 form-control pl-2"
+                  matInput
+                  name="input"
+                  [(ngModel)]="item.quantity"
+                  (ngModelChange)="onChangeSalesQuantity(element)"
+                  [ngClass]="{
+                    'border-red': item.quantity < 0 || item.quantity === null
+                  }"
+                />
+              </div>
+              <div class="col-12 my-2  d-flex flex-wrap">
+                <p><b>Total:</b>&nbsp;{{ element.totalCash }}</p>
               </div>
             </ng-container>
             <ng-template #textbox>
-              <div class="d-flex flex-row flex-wrap">
-                <p class="col-6 my-1">
-                  <span>{{ element.sales.cash.name }}</span
-                  >:
-                  <span class="font-weight-bold"
-                    >INR {{ element.sales.cash.value }}/-</span
-                  >
-                </p>
-                <div class="col-6 d-flex flex-row flex-wrap">
-                  <p class="col-12 my-1" *ngFor="let item of element.sales.pos">
-                    <span>{{ item.name }}</span
-                    >: <span class="font-weight-bold">{{ item.value }}</span>
-                  </p>
-                </div>
+              <p class=" col-12 my-2 d-flex  flex-wrap">
+                <span class="font-weight-bold">cash:&nbsp;</span>
+                <span>{{ element.cash }}</span>
+              </p>
+              <div
+                class=" col-12 my-2 d-flex flex-row flex-wrap"
+                *ngFor="let item of element.posmachine"
+              >
+                <span class="font-weight-bold">pos{{ item.pos }}:&nbsp;</span>
+                <span>{{ item.quantity }}</span>
+              </div>
+              <div class="col-12 my-2  d-flex flex-wrap">
+                <p><b>Total:</b>&nbsp;{{ element.totalCash }}</p>
               </div>
             </ng-template>
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="closing_quantity">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg px-3"
+          >
+            Closing Quantity
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="align-top font-sm robot-regular headertxt tdcolor"
+          >
+            <!-- liquor closed_quantity -->
+            <p class="my-2 col-12">
+              <span><b>Closed Qty:</b> {{ element.closing_quantity }}</span>
+            </p>
+          </td>
+        </ng-container>
+
         <!------pos-->
         <ng-container matColumnDef="amount">
-          <th mat-header-cell *matHeaderCellDef class="robot-bold thtext theadbg">AMOUNT</th>
-          <td mat-cell *matCellDef="let element" class="align-top font-sm robot-regular headertxt tdcolor">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="robot-bold thtext theadbg px-3"
+          >
+            AMOUNT
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="align-top font-sm robot-regular headertxt tdcolor"
+          >
             <ng-container
               *ngIf="
                 element.id == editRowID || editRowID === null;
                 else textbox
               "
             >
-              <div class="d-flex flex-row flex-wrap ">
-                <div class="col-6 d-flex my-1">
-                  <span class="my-1">{{ element.amount[0].name }}:&nbsp;</span>
-                  <span class="my-1">{{
-                    element.itemdescription[1].value *
-                      (element.sales.cash.value +
-                        element.sales.pos[0].value +
-                        element.sales.pos[1].value)
-                  }}</span>
-                </div>
-                <div class="col-6 d-flex my-1">
-                  <span class="my-1">{{ element.amount[1].name }}:&nbsp;</span>
-                  <input
-                    type="number"
-                    class="col-6 form-control"
-                    matInput
-                    name="input"
-                    [(ngModel)]="element.amount[1].value"
-                    (ngModelChange)="onChangeAmount($event)"
-                  />
-                </div>
-                <div class="col-6 d-flex my-1">
-                  <span class="my-1">{{ element.amount[2].name }}:&nbsp;</span>
-                  <!-- <input class="d-none" [(ngModel)]="name" #ctrl="ngModel"> -->
-                  <span class="my-1">{{
-                    element.amount[0].value * (element.amount[1].value / 100)
-                  }}</span>
-                </div>
-                <div class="col-6 d-flex my-1">
-                  <span class="my-1">{{ element.amount[3].name }}:&nbsp;</span>
-                  <span class="my-1">{{
-                    element.amount[0].value -
-                      element.amount[0].value * (element.amount[1].value / 100)
-                  }}</span>
-                </div>
+              <div class=" col-12 d-flex my-1">
+                <span class="my-1 font-weight-bold">Total:&nbsp;</span>
+                <span class="my-1">{{ element.total }}/-</span>
+              </div>
+              <div class=" col-12 d-flex my-1 flex-wrap">
+                <span class="font-weight-bold">Discount(INR):&nbsp;</span>
+                <input
+                  type="number"
+                  class="col-lg-4 col-12 form-control pl-2"
+                  matInput
+                  name="input"
+                  [(ngModel)]="element.discount"
+                  (ngModelChange)="onChangeDiscount(element)"
+                  [ngClass]="{
+                    'border-red':
+                      element.discount < 0 || element.discount === null
+                  }"
+                />
+              </div>
+              <div class=" col-12 d-flex my-1">
+                <span class="my-1 font-weight-bold">Total Amount:&nbsp;</span>
+                <span class="my-1">{{ element.total_amount }}/-</span>
               </div>
             </ng-container>
             <ng-template #textbox>
-              <div class="d-flex flex-row flex-wrap">
-                <div class="col" *ngFor="let item of element.amount">
-                  <p class="my-1">{{ item.name }}:</p>
+              <div class=" col-12 d-flex flex-wrap">
+                <p class="my-1 font-weight-bold">Total:&nbsp;</p>
+                <p class="font-weight-bold my-1">INR: {{ element.total }}/-</p>
+              </div>
 
-                  <p class="font-weight-bold my-1">{{ item.value }}</p>
-                </div>
+              <div class=" col-12 d-flex flex-wrap">
+                <p class="my-1 font-weight-bold">Discount&nbsp;:</p>
+                <p class="font-weight-bold my-1">
+                  INR: {{ element.discount }}/-
+                </p>
+              </div>
+              <div class=" col-12 d-flex flex-wrap">
+                <p class="my-1 font-weight-bold">Total Amount:&nbsp;</p>
+                <p class="font-weight-bold my-1">
+                  INR: {{ element.total_amount }}/-
+                </p>
               </div>
             </ng-template>
           </td>
@@ -224,34 +318,54 @@
 
         <!-------------purchase----------->
         <ng-container matColumnDef="purchase">
-          <th mat-header-cell *matHeaderCellDef class="robot-bold thtext theadbg">PURCHASE</th>
-          <td mat-cell *matCellDef="let element" class="align-top font-sm robot-regular headertxt tdcolor">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="robot-bold thtext theadbg px-3"
+          >
+            PURCHASE
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class=" font-sm robot-regular headertxt tdcolor"
+          >
             <ng-container
               *ngIf="
                 element.id == editRowID || editRowID === null;
                 else textbox
               "
             >
-              <div *ngFor="let item of element.purchase">
-                <div class="my-1">
-                  <span>{{ item.name }}</span
-                  >:
+              <div class="d-flex col-12 flex-wrap">
+                <span class="font-weight-bold">Quantity:&nbsp;</span>
+                <div class="col-lg-4 col-12 px-0 ">
                   <input
                     type="number"
-                    class="col-4 form-control"
+                    class=" form-control pl-2"
                     matInput
                     name="input"
-                    [(ngModel)]="item.value"
+                    [ngClass]="{
+                      'border-red':
+                        element.purchase_quantity < 0 ||
+                        element.purchase_quantity === null
+                    }"
+                    [(ngModel)]="element.purchase_quantity"
                   />
+                  <!-- <small
+                    class="text-danger"
+                    *ngIf="element.purchase_quantity < 0"
+                    >value > 0</small
+                  > -->
                 </div>
               </div>
-              <!-- <input matInput name="input" [(ngModel)]="element.purchase" /> -->
             </ng-container>
             <ng-template #textbox>
-              <div *ngFor="let item of element.purchase">
+              <div>
                 <p class="my-1">
-                  <span>{{ item.name }}</span
-                  >: <span class="font-weight-bold">{{ item.value }}</span>
+                  <span class="font-weight-bold">Quantity</span>:
+                  <span class="">{{
+                    element.purchase_quantity
+                  }}</span>
                 </p>
               </div>
             </ng-template>
@@ -259,17 +373,31 @@
         </ng-container>
 
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="robot-bold thtext theadbg">ACTIONS</th>
-          <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="robot-bold thtext theadbg px-3"
+          >
+            ACTIONS
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
             <button
               *ngIf="editRowID !== null"
+              color="primary"
               mat-icon-button
               [ngClass]="
                 editRowID == element.id ? 'bg-dark-grey' : 'bg-dark-grey'
               "
               type="button"
               (click)="editRowID = editRowID == element.id ? '' : element.id"
-              [disabled]="editRowID !== '' && editRowID !== element.id"
+              [disabled]="
+                (editRowID !== '' && editRowID !== element.id) ||
+                isValidLiquor(element)
+              "
             >
               <mat-icon>
                 {{ editRowID == element.id ? "done" : "edit" }}
@@ -300,8 +428,22 @@
             <tr mat-footer-row *matFooterRowDef="['noRecord']"></tr>
         </ng-template> -->
     </table>
+
+    <div class="text-right">
+      <button
+        *ngIf="editRowID === null"
+        mat-raised-button
+        color="primary"
+        (click)="submitSalesData()"
+        class=" text-white mt-3"
+        [disabled]="isValidTable()"
+      >
+        Submit Data
+      </button>
+
+      <!-- <button>
+        Submit Data
+      </button> -->
+    </div>
   </div>
 </div>
-<button (click)="submitSalesData()" class="bg-primary text-white py-2">
-  Submit Data
-</button>
