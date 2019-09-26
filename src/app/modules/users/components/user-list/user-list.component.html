@@ -14,7 +14,9 @@
       Add User
     </button>  
      </div> 
-    
+
+    <h4  *ngIf="filteredUsers?.length==0" class="mx-auto">No user found</h4>
+
     <div class="container">
     <div class="row m-0">
       <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let user of filteredUsers">

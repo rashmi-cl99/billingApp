@@ -61,4 +61,16 @@ export class UserManagementService {
         catchError((error: any) => throwError(error || "Server error"))
       );
   }
+  getRoles() {
+    return this.httpClient.get("http://localhost:8000/role-list/").pipe(
+      map((res: any) => res),
+      catchError((error: any) => throwError(error || "Server error"))
+    );
+  }
+  getShops() {
+    return this.httpClient.get("http://localhost:8000/shops-list/").pipe(
+      map((res: any) => res),
+      catchError((error: any) => throwError(error || "Server error"))
+    );
+  }
 }

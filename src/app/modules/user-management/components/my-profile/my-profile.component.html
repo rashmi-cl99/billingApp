@@ -1,8 +1,13 @@
 <mat-tab-group animationDuration="0ms">
   <mat-tab label="My Profile">
-    <form [formGroup]="myprofileForm">
-      <div class="form-group d-flex flex-row flex-wrap">
-        <mat-form-field class="col-12">
+    <div class=" d-flex justify-content-center  align-items-center h-100">
+        <div
+            class="bg-white col-11 col-md-5 col-lg-4 col-xl-3 d-flex flex-row align-items-center mt-5"
+          >
+            <div class="my-auto text-center col-12  py-5">
+    <form [formGroup]="myprofileForm" class="w-100">
+      <div class="form-group d-flex flex-row flex-wrap justify-content-center container">
+        <mat-form-field class="w-100">
           <input
             matInput
             placeholder="Name"
@@ -13,7 +18,7 @@
             getErrorMessagename()
           }}</mat-error>
         </mat-form-field>
-        <mat-form-field class="col-12">
+        <mat-form-field class="w-100">
           <input
             matInput
             placeholder="Phone"
@@ -27,12 +32,13 @@
             {{ registerForm.get('phone').errors?.serverError }}
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-12">
+        <mat-form-field class="w-100">
           <input
             matInput
             placeholder="Email"
             formControlName="email"
             class="form-control "
+            [attr.disabled]="true"
           />
           <mat-error *ngIf="myprofileForm.get('email').invalid">{{
             getErrorMessage()
@@ -44,7 +50,7 @@
         </mat-form-field>
         
        
-        <div class="px-3">
+        <div class="text-left w-100">
           <mat-form-field >
             <mat-label>Role</mat-label>
             <mat-select formControlName="role" disabled>
@@ -57,6 +63,7 @@
             </mat-error>
           </mat-form-field>
         </div>
+        <div class="text-left w-100">
         <mat-form-field>
           <mat-label>Shop</mat-label>
           <mat-select formControlName="shop" multiple disabled>
@@ -68,13 +75,17 @@
               This field is required
           </mat-error>
         </mat-form-field>
+       </div>
       </div>
       <div class="row">
-        <div class="col-6 text-xl-right text-lg-right text-md-right text-white">
+        <div class="col-6 text-xl-center tex-lg-center text-md-center mx-auto text-white">
           <button mat-button class=" robot-bold btnbg "(click)="onSubmit()">Update</button>
         </div>
       </div>
     </form>
+    </div>
+    </div>
+    </div>
   </mat-tab>
   <mat-tab label="Change Password">
     <app-change-password></app-change-password>

@@ -87,3 +87,12 @@ body {
 .thtext {
   color: #a3a6b4;
 }
+body{
+  position: relative;
+}
+footer {
+  position: absolute;;
+  bottom:0;
+  left: 0;
+  right: 0;
+}

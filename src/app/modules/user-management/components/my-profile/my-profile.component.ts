@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserManagementService } from '../../services/user-management.service';
 import Swal from "sweetalert2";
 import "sweetalert2/src/sweetalert2.scss";
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-my-profile',
@@ -13,14 +13,24 @@ import { Router } from '@angular/router';
 export class MyProfileComponent implements OnInit {
   userDetails=null;
   myprofileForm:FormGroup;
-  unamePattern = "^[a-zA-Z ]*$";
+  unamePattern = "[a-zA-Z0-9 ]+";
   mobnumPattern = "^((\\+91-?)|0)?[0-9]{10}$";
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
-  disabled;
+  roles = [];
+  shops = [];
   constructor(private userManagementService:UserManagementService,private router:Router) { }
 
   ngOnInit() {
-
+    
+    this.userManagementService.getRoles().subscribe(res => {
+      console.log("roles got", res);
+      this.roles = res;
+    });
+    this.userManagementService.getShops().subscribe(res => {
+      console.log("shop got", res);
+      this.shops = res;
+    });
+    
     this. userManagementService.getUserprofiledetail().subscribe(res=>{
           this.userDetails=res;
          this.editUserDetails(res);
@@ -43,6 +53,7 @@ export class MyProfileComponent implements OnInit {
       role: new FormControl(null, Validators.required),
       shop: new FormControl(null, Validators.required)
     });
+    this.myprofileForm.controls['email'].disable();
   }
   editUserDetails(data) {
     console.log("patch values asdasdasd", data);
@@ -58,38 +69,41 @@ export class MyProfileComponent implements OnInit {
     return this.myprofileForm.get("email").hasError("required")
       ? "You must enter a value"
       : this.myprofileForm.get("email").hasError("email")
-      ? "Not a valid email"
-      : "";
+      ? ""
+      : "Not a valid email";
   }
 
   getErrorMessage1() {
     return this.myprofileForm.get("phone").hasError("required")
       ? "You must enter a value"
-      : this.myprofileForm.get("phone").hasError("phone")
-      ? "Not a valid phone"
-      : "";
+      : this.myprofileForm.get("phone").hasError("mobnumPattern")
+      ? ""
+      : "Not a valid phone";
   }
 
   getErrorMessagename() {
     console.log("formgroupdsf", this.myprofileForm);
     return this.myprofileForm.get("name").hasError("required")
       ? "You must enter a value"
-      : this.myprofileForm.get("name").hasError("name")
-      ? "enter a valid name"
-      : "";
+      : this.myprofileForm.get("name").hasError("unamePattern")
+      ? ""
+      : "enter a valid name";
   }
 
   onSubmit() 
   {
-    
+    if(this.myprofileForm.valid)
+    {
       console.log("Updated Succesfully", this.myprofileForm.value);
-      const { name, email, phone} = this.myprofileForm.value;
+      const { name, email, phone,role,shop} = this.myprofileForm.value;
       
       const fd = {
         name,
         email: email,
         phone: phone,
         id: this.userDetails.id,
+        role:role,
+        shop:shop
        
                  };
       this.userManagementService.updateUser(fd).subscribe(
@@ -124,5 +138,6 @@ export class MyProfileComponent implements OnInit {
                  }
         );
     }
-  
+  }
+ 
 }

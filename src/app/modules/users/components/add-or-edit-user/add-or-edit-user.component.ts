@@ -18,7 +18,7 @@ export class AddOrEditUserComponent implements OnInit {
   roles = [];
   shops = [];
   registerForm: FormGroup;
-  unamePattern = "^[a-zA-Z ]*$";
+  unamePattern = "[a-zA-Z0-9 ]+";
   mobnumPattern = "^((\\+91-?)|0)?[0-9]{10}$";
   emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
   router: any;
@@ -165,24 +165,24 @@ export class AddOrEditUserComponent implements OnInit {
     return this.registerForm.get("email").hasError("required")
       ? "You must enter a value"
       : this.registerForm.get("email").hasError("email")
-      ? "Not a valid email"
-      : "";
+      ? ""
+      : "Not a valid email";
   }
 
   getErrorMessage1() {
     return this.registerForm.get("phone").hasError("required")
       ? "You must enter a value"
-      : this.registerForm.get("phone").hasError("phone")
-      ? "Not a valid phone"
-      : "";
+      : this.registerForm.get("phone").hasError("mobnumPattern")
+      ? ""
+      : "Not a valid phonenumber";
   }
 
   getErrorMessagename() {
     console.log("formgroupdsf", this.registerForm);
     return this.registerForm.get("name").hasError("required")
       ? "You must enter a value"
-      : this.registerForm.get("name").hasError("name")
-      ? "enter a valid name"
-      : "";
+      : this.registerForm.get("name").hasError("unamePattern")
+      ? ""
+      : "enter a valid name";
   }
 }
