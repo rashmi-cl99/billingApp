@@ -1,4 +1,13 @@
-<h1 mat-dialog-title class="text-center">{{dialogData.type}}</h1>
+<div class="d-flex flex-wrap flex-row">
+  <div class="col-xl-10 col-lg-10 col-md-10 col-8">
+  <h1 mat-dialog-title class="text-center">{{dialogData.type}}</h1>
+  </div>
+  <div class="col-xl-2 col-lg-2 col-md-2 col-4">
+  <button mat-button class="close text-right" [mat-dialog-close]="true" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+</div>
 <div mat-dialog-content>
   <form [formGroup]="registerForm">
     <div class="form-group d-flex flex-row flex-wrap">
@@ -65,8 +74,8 @@
       </mat-form-field>
       
      
-      <div class="px-3">
-        <mat-form-field>
+      <!-- <div class="px-3"> -->
+        <mat-form-field class="col-12">
           <mat-label>Role</mat-label>
           <mat-select formControlName="role">
             <mat-option *ngFor="let role of roles" [value]="role.id">
@@ -78,7 +87,7 @@
           </mat-error>
         </mat-form-field>
       </div>
-      <mat-form-field>
+      <mat-form-field class="col-12">
         <mat-label>Shop</mat-label>
         <mat-select formControlName="shop" multiple>
           <mat-option *ngFor="let shop of shops" [value]="shop.id">
@@ -89,13 +98,13 @@
             This field is required
         </mat-error>
       </mat-form-field>
-    </div>
-    <div class="row">
-      <div class="col-6 text-xl-right text-lg-right text-md-right text-white">
-        <button mat-button class=" robot-bold btnbg " (click)="registerSubmit()" [disabled]="disableSubmit" >Submit</button>
+    <!-- </div> -->
+    <div class="row m-0"> 
+     <div class="col-xl-10 col-lg-10 col-md-10 col-7 text-xl-right text-lg-right text-md-right text-center">
+        <button mat-button class=" robot-bold bg-white border border-danger " [mat-dialog-close]="true" cdkFocusInitial>Cancel</button>
       </div>
-     <div class="col-6 text-xl-left text-lg-left text-md-left text-white">
-        <button mat-button class=" robot-bold btnbg " [mat-dialog-close]="true" cdkFocusInitial>Cancel</button>
+      <div class="col-xl-2 col-lg-2 col-md-2 col-5 text-xl-left text-lg-left text-md-left text-white text-center">
+        <button mat-button class=" robot-bold btnbg " (click)="registerSubmit()" [disabled]="disableSubmit" >Submit</button>
       </div>
     </div>
   </form>

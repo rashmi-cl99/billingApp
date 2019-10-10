@@ -6,13 +6,47 @@
       class="img-fluid"
   /></span>
   <p class="font-lg robot-regular robot-bold">Billing App</p>
-
-  <span
-    class="ml-auto d-flex align-items-center cursor-pointer"
-    [matMenuTriggerFor]="menu"
+  <!-- <span class="d-flex flex-wrap flex-row ml-auto">
+    <a
+    [routerLink]="['/users']"
+    class="text-info text-decoration-none font-sm  px-2"
+    >Users</a
   >
+    <a
+    [routerLink]="['sales']"
+    class="text-info text-decoration-none font-sm px-2"
+    >Sales</a
+  >
+
+  <a
+  [routerLink]="['sales/report']"
+  class="text-info text-decoration-none font-sm px-2"
+  >Report</a
+  >
+  </span> -->
+  <span
+    class="ml-auto d-flex flex-wrap cursor-pointer">
+  <a
+  [routerLink]="['/users']"
+  class="text-info text-decoration-none font-sm  px-2"
+  >Users</a
+>
+  <a
+  [routerLink]="['sales']"
+  class="text-info text-decoration-none font-sm px-2"
+  >Sales</a
+>
+
+<a
+[routerLink]="['sales/report']"
+class="text-info text-decoration-none font-sm px-2"
+>Report</a
+>
+</span>
     <i class="material-icons"> person_outline </i
-    ><span class="robot-regular headertxt">{{ username }}</span>
+    >
+    <span class="robot-regular headertxt text-capitalize" [matMenuTriggerFor]="menu"
+    >{{ username }}</span>
     <mat-menu #menu="matMenu">
       <button mat-menu-item [routerLink]="['/my-profile']">My Account</button>
 
@@ -22,5 +56,4 @@
 
       <button mat-menu-item (click)="logout()">Logout</button>
     </mat-menu>
-  </span>
 </mat-toolbar>

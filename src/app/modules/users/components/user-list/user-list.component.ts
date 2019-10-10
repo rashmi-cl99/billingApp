@@ -10,6 +10,8 @@ import { UserService } from "../../services/users.service";
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { AddOrEditUserComponent } from "../add-or-edit-user/add-or-edit-user.component";
 import { Subscription } from "rxjs";
+import Swal from 'sweetalert2';
+import { MatSnackBar } from '@angular/material';
 
 export interface DialogData {
   user: any;
@@ -32,7 +34,8 @@ export class UserListComponent implements OnInit, OnDestroy {
     private usersService: UserService,
     private router: Router,
     public dialog: MatDialog,
-    private changeDetect: ChangeDetectorRef
+    private changeDetect: ChangeDetectorRef,
+    private _snackBar: MatSnackBar
   ) {}
 
   private usersListSubscription: Subscription;
@@ -78,14 +81,15 @@ export class UserListComponent implements OnInit, OnDestroy {
         this.usersService.getUsers();
         this.usersListSubscription = this.usersService.usersListSubscription.subscribe(
           res => {
-            console.log("ressssssssss", res);
+            console.log("enable",res);
+            Swal.fire({type:'success',text:'successfull'});
             this.userList = res;
           }
         );
         this.usersService.getUsers().subscribe(res => {});
       }
       error => {
-        console.log("error response", error);
+        Swal.fire({type:'error',text:error});
       };
     });
   }
@@ -120,4 +124,11 @@ export class UserListComponent implements OnInit, OnDestroy {
       return tag.name.indexOf(term) >= 0;
     });
   }
+
+  // openSnackBar(message: string, action: string) {
+  //   this._snackBar.open(message, action, {
+  //     duration: 2000,
+  //   });
+  //}          
+  
 }

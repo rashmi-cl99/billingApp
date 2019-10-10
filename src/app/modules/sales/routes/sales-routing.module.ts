@@ -6,21 +6,25 @@ import { ReportComponent } from '../components/report/report.component';
 import { AuthGuard } from 'src/app/shared/guards/auth.guard';
 
 
+
+
 const routes: Routes = [
   {
     path: "",
     component: SalesComponent,
-    canActivate: [AuthGuard ],
+    canActivate: [AuthGuard],
+    data: {role: 'Staff'},
   },
   {
     path: "bill",
     component: BillGenerationComponent,
-    canActivate: [AuthGuard ],
+    canActivate: [AuthGuard],
+    data: {role: 'Accountant'},
   },
   {
     path: "report",
     component: ReportComponent,
-    canActivate: [AuthGuard ],
+    canActivate: [AuthGuard],
   },
 ];
 

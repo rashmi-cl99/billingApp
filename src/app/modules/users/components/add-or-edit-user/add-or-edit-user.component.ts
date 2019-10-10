@@ -116,7 +116,7 @@ export class AddOrEditUserComponent implements OnInit {
     ) {
       console.log("this.dialogData", this.dialogData);
 
-      const { name, email, phone, role, shop } = this.registerForm.value;
+      const { name, email, phone,password, role, shop } = this.registerForm.value;
       this.disableSubmit = true;
 
       const fd = {
@@ -124,6 +124,7 @@ export class AddOrEditUserComponent implements OnInit {
         email: email,
         phone: phone,
         id: this.dialogData.user.id,
+        password:password,
         role,
         shop
       };

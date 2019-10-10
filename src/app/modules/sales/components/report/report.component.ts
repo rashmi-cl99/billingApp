@@ -81,14 +81,13 @@ export class ReportComponent implements OnInit {
       const reformatData=res.map((data)=>{
         return{
           id:`${data.id}`,
-          itemdescription:`name:${data.shopliquor.liquor.name} 
-                           rate:${data.shopliquor.liquor.rate}`,
-          openingquantity:`${data.shopliquor.opening_quantity}`,
-          purchase:`${data.shopliquor.shop_inventory[0].purchase_quantity}`,
-          sales:`${data.cash_sell}`,
-          closing:`${data.shopliquor.opening_quantity+data.shopliquor.shop_inventory[0].purchase_quantity-data.cash_sell}`,
-          discount_rate:`${data.discount_rate}`,
-          total:`${data.shopliquor.liquor.rate*data.cash_sell}`
+          itemdescription:`${data.Item_Name} `,
+          openingquantity:`${data.Opening_quantity}`,
+          purchase:`${data.Purchase_quantity}`,
+          sales:`${data.Sales}`,
+          closing:`${data.Closing_quantity}`,
+          discount_rate:`${data.Discount}`,
+          total:`${data.Total}`
         };
       });
       console.log("result", reformatData);
@@ -104,16 +103,15 @@ export class ReportComponent implements OnInit {
   this.salesService.reportGenratePos(this.val,this.shopSelected).subscribe(res => {
     console.log("report pos got", res);
     const reformatDatapos=res.map((data)=>{
-      let pos1 = Number(data.shopposmachine.pos_machine == 1 ? `${data.discount_rate*data.quantity}` : 0);
-      let pos2 = Number(data.shopposmachine.pos_machine !== 1 ? `${data.discount_rate*data.quantity}` : 0);
+      let pos1 = Number(data.posmachine == 1 ? `${data.Discount*data.Quantity}` : 0);
+      let pos2 = Number(data.posmachine !== 1 ? `${data.Discount*data.Quantity}` : 0);
       return{
         id:`${data.id}`,
-        itemdescription:`Name:${data.shopliquor.liquor.name} 
-                         Rate:${data.shopliquor.liquor.rate} `,
-        quantity:`${data.quantity}`,
-        discount_rate:`${data.discount_rate}`,
-        pos1:data.shopposmachine.pos_machine == 1 ? `${data.discount_rate*data.quantity}` : 0 ,
-        pos2:data.shopposmachine.pos_machine !== 1 ? `${data.discount_rate*data.quantity}` : 0,
+        itemdescription:`${data.Item_Name}`,
+        quantity:`${data.posmachine[0].Quantity1}`,
+        discount_rate:`${data.Discount}`,
+        pos1:data.posmachine[0].POS == 'Pos1' ? `${data.posmachine[0].Amount1}` : 0 ,
+        pos2:data.posmachine[0].POS !== 'Pos1' ? `${data.posmachine[0].Amount2}` : 0,
         total:`${pos1+pos2}`,
       };
     });

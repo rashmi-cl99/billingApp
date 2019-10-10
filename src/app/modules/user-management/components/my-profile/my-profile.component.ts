@@ -53,7 +53,7 @@ export class MyProfileComponent implements OnInit {
       role: new FormControl(null, Validators.required),
       shop: new FormControl(null, Validators.required)
     });
-    this.myprofileForm.controls['email'].disable();
+    //this.myprofileForm.controls['email'].disable();
   }
   editUserDetails(data) {
     console.log("patch values asdasdasd", data);
@@ -98,7 +98,7 @@ export class MyProfileComponent implements OnInit {
       const { name, email, phone,role,shop} = this.myprofileForm.value;
       
       const fd = {
-        name,
+        name:name,
         email: email,
         phone: phone,
         id: this.userDetails.id,

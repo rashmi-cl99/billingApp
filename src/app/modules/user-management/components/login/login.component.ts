@@ -28,7 +28,10 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    localStorage.clear(); //clearing the local storage when user navigates to login page
+    if (localStorage.getItem("token")) {
+      this.redirect(localStorage.getItem("role"));
+    }
+
     this.innerWidth = window.innerWidth; //updating the screen width when screen loads
     // defining the form control
     this.loginForm = new FormGroup({
@@ -57,31 +60,28 @@ export class LoginComponent implements OnInit {
       : "";
   }
 
+  redirect(role) {
+    if (role === "Admin") {
+      this.router.navigate(["/users"]);
+    } else if (role === "Staff") {
+      this.router.navigate(["/sales"]);
+    } else {
+      this.router.navigate(["/sales/bill"]);
+    }
+  }
+
   onSubmit() {
     console.log(this.loginForm);
 
     if (this.loginForm.valid) {
       this.userManagementService.submitForm(this.loginForm.value).subscribe(
         res => {
-          // if(res.status == 'success') {
           const { token, user_id, name, role } = res;
           localStorage.setItem("token", token);
           localStorage.setItem("userId", user_id);
           localStorage.setItem("name", name);
           localStorage.setItem("role", role);
-          if (role === "Admin") {
-            this.router.navigate(["/users"]);
-          } else if (role === "Staff") {
-            this.router.navigate(["/sales"]);
-          } else {
-            this.router.navigate(["/sales/bill"]);
-          }
-          // } else {
-          //   Swal.fire({
-          //     type: 'error',
-          //     title: res.message,
-          //   })
-          // }
+          this.redirect(role);
         },
         error => {
           Swal.fire({

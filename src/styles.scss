@@ -91,7 +91,7 @@ body{
   position: relative;
 }
 footer {
-  position: absolute;;
+  position:absolute;
   bottom:0;
   left: 0;
   right: 0;
@@ -99,4 +99,8 @@ footer {
 
 .cursor-disabled {
   cursor: disabled;
+}
+.cursor-disabledsy
+{
+  cursor: no-drop;
 }

@@ -1,7 +1,8 @@
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router} from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserManagementService } from 'src/app/modules/user-management/services/user-management.service';
+import { UserService } from 'src/app/modules/users/services/users.service';
+
 
 @Injectable(
     {providedIn:'root'}
@@ -9,18 +10,86 @@ import { UserManagementService } from 'src/app/modules/user-management/services/
 export class AuthGuard implements CanActivate
 {
 
-   constructor(private userManagementService:UserManagementService,private router:Router)
+   constructor(private router:Router,private userService:UserService)
    {
 
    }
    canActivate(route:ActivatedRouteSnapshot,router:RouterStateSnapshot):boolean | Promise<boolean> | Observable<boolean>
    {
     const token: string = localStorage.getItem('token');
-    if (token) {
+    const role: string=localStorage.getItem('role');
+    if (token) 
+    {
       return true;
     }
     this.router.navigateByUrl('/login');
     return false;
-  }
+  //   if(token)
+  // {
+  //     if(role === 'Admin')
+  //     {
+  //         return true;
+  //     }
+  //     else if(role === 'Accountant')
+  //     {
+  //          //this.router.navigateByUrl('/sales/bill');
+  //          return true;
+
+  //     }
+  //     else if(role === 'Staff')
+  //     {
+  //       //this.router.navigateByUrl('/sales');
+  //       return true;
+  //     }
+     
+  //  }
+  //  this.router.navigateByUrl('/login');
+  //  return false;
+  // }
+
+  // if(token)
+  // {
+  //   if(role === 'Admin')
+  //   {
+  //     return true;
+  //   }
+  //   this.router.navigateByUrl('/login');
+  //   return false;
+  // }
+
+  // if(token)
+  // {
+  //   if(role === 'Accountant')
+  //   {
+  //     return true;
+  //   }
+  //   this.router.navigateByUrl('/login');
+  //   return false;
+  // }
+
+  // if(token)
+  // {
+  //   if(role === 'Staff')
+  //   {
+  //     return true;
+  //   }
+  //   this.router.navigateByUrl('/users');
+  //   return false;
+  // }
    
+  }
+  // canActivateChild(
+  //   route: ActivatedRouteSnapshot,
+  //   state: RouterStateSnapshot
+  // ): Observable<boolean|UrlTree>|Promise<boolean|UrlTree>|boolean|UrlTree {
+  //   const role: string=localStorage.getItem('role');
+  //   if(role === 'Accountant')
+  //   {
+  //     this.router.navigateByUrl('/sales/Bill');
+  //     return true;
+  //   }
+    
+  //   return false;
+  // }
+  
 }

@@ -17,8 +17,8 @@ export class SalesService {
     );
   }
 
-  genratebill() {
-    return this.httpClient.get("http://localhost:8000/api/generate-bill/").pipe(
+  genratebill(shop,date) {
+    return this.httpClient.get(`http://localhost:8000/api/export/${shop}/${date}/`).pipe(
       map((res: any) => res),
       catchError((error: any) => Observable.throw(error || "Server error"))
     );
