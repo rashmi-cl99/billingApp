@@ -16,7 +16,6 @@ import { MatSnackBar } from '@angular/material';
 export interface DialogData {
   user: any;
   id: any;
-  animal: "panda" | "unicorn" | "lion";
 }
 
 @Component({
@@ -28,14 +27,13 @@ export class UserListComponent implements OnInit, OnDestroy {
   user: any;
   searchTerm: any;
   userList = [];
-  filteredUsers = [];
+  filteredUsers = null;
 
   constructor(
     private usersService: UserService,
     private router: Router,
     public dialog: MatDialog,
     private changeDetect: ChangeDetectorRef,
-    private _snackBar: MatSnackBar
   ) {}
 
   private usersListSubscription: Subscription;
@@ -73,24 +71,23 @@ export class UserListComponent implements OnInit, OnDestroy {
       is_active: is_active === true ? 0 : 1
       // is_active:is_active=0
     };
-
+  
     //this is used for service integration
-    this.usersService.statusdetail(id, fd).subscribe(res => {
+    this.usersService.statusdetail(id, fd).subscribe(respo => {
       {
-        console.log("success response", res);
+        Swal.fire({type:'success',text:respo.success});
         this.usersService.getUsers();
         this.usersListSubscription = this.usersService.usersListSubscription.subscribe(
-          res => {
-            console.log("enable",res);
-            Swal.fire({type:'success',text:'successfull'});
-            this.userList = res;
-          }
+          resp => {
+            console.log("enable",resp);
+            this.userList = resp;
+                }
         );
         this.usersService.getUsers().subscribe(res => {});
       }
       error => {
-        Swal.fire({type:'error',text:error});
-      };
+                    Swal.fire({type:'error',text:error.error});
+               };
     });
   }
   addDialog() {
@@ -100,7 +97,7 @@ export class UserListComponent implements OnInit, OnDestroy {
         type: "Add User"
       },
       disableClose: false,
-      hasBackdrop: false
+      // hasBackdrop: false
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -114,21 +111,16 @@ export class UserListComponent implements OnInit, OnDestroy {
         user: user
       },
       disableClose: false,
-      hasBackdrop: false
+      // hasBackdrop: false
     });
     dialogRef.afterClosed().subscribe(result => {});
   }
   search(): void {
     let term = this.searchTerm;
     this.filteredUsers = this.userList.filter(function(tag) {
-      return tag.name.indexOf(term) >= 0;
+      // return tag.name.toLowerCase().indexOf(term) != -1  || tag.name.indexOf(term) != -1 || tag.name.toUpperCase().indexOf(term) != -1  ;
+      return tag.name.toLowerCase().indexOf(term.toLowerCase()) != -1;
     });
   }
 
-  // openSnackBar(message: string, action: string) {
-  //   this._snackBar.open(message, action, {
-  //     duration: 2000,
-  //   });
-  //}          
-  
 }

@@ -13,10 +13,10 @@ import 'sweetalert2/src/sweetalert2.scss';
 })
 export class ForgotPasswordComponent implements OnInit {
 
-  constructor( private userManagementService: UserManagementService, 
+  constructor( private userManagementService: UserManagementService,
                private router: Router) { }
   forgotform: FormGroup;
-  ngOnInit() 
+  ngOnInit()
   {
     //form control for username
     this.forgotform = new FormGroup({
@@ -24,7 +24,7 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
  //this method is used to show the error message for username field
-  getErrorMessage() 
+  getErrorMessage()
   {
     return this.forgotform.get("username").hasError("required")
       ? "You must enter a value"
@@ -35,7 +35,7 @@ export class ForgotPasswordComponent implements OnInit {
 
   //this method is used for service integration of forgotPassword
   forgotpwd() {
-    console.log("adsfdsfsdf", this.forgotform);
+    // console.log("adsfdsfsdf", this.forgotform);
 
     const fd = {
       username: this.forgotform.value.username
@@ -51,7 +51,7 @@ export class ForgotPasswordComponent implements OnInit {
           title: 'Oops...',
           text: error.error.error,
         });
-        
+
         const validationErrors = error.error;
         if (error.status === 400) {
           Object.keys(validationErrors).forEach(errorKey => {
@@ -63,11 +63,11 @@ export class ForgotPasswordComponent implements OnInit {
               });
             }
           });
-         
+
         }
       }
     );
-    
+
   }
 
 

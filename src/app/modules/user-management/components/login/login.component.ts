@@ -14,7 +14,8 @@ export class LoginComponent implements OnInit {
   hide = true; //used for password hide and show icon
   loginForm: FormGroup;
   innerWidth: any; //to check the width of the screen
-  emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
+  emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
+  // emailPattern = "^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
 
   // host listener used to check the size of the width
   @HostListener("window:resize", ["$event"])
@@ -62,23 +63,28 @@ export class LoginComponent implements OnInit {
 
   redirect(role) {
     if (role === "Admin") {
-      this.router.navigate(["/users"]);
-    } else if (role === "Staff") {
+      this.router.navigate(["/sales"]);
+    } else if (role === "User") {
       this.router.navigate(["/sales"]);
     } else {
       this.router.navigate(["/sales/bill"]);
     }
   }
 
+  keyDownFunction(event) {
+    if (event.keyCode == 13) {
+      this.onSubmit();
+    }
+  }
+
   onSubmit() {
-    console.log(this.loginForm);
+    // console.log(this.loginForm);
 
     if (this.loginForm.valid) {
       this.userManagementService.submitForm(this.loginForm.value).subscribe(
         res => {
-          const { token, user_id, name, role } = res;
+          const { token, name, role } = res;
           localStorage.setItem("token", token);
-          localStorage.setItem("userId", user_id);
           localStorage.setItem("name", name);
           localStorage.setItem("role", role);
           this.redirect(role);
@@ -87,7 +93,7 @@ export class LoginComponent implements OnInit {
           Swal.fire({
             type: "error",
             title: "Oops...",
-            text: error.error.invalid_credential
+            text: error.error.error
           });
 
           const validationErrors = error.error;

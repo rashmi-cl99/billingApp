@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 
 @Component({
@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = "billing-app";
   href: any;
   // dashboard: boolean;
@@ -15,8 +15,16 @@ export class AppComponent {
 
   constructor(private router: Router) {}
 
+  ngOnInit() {
+    // console.log("on init called");
+    window.addEventListener("offline", function(e) {
+      alert("Check your Internet Connection");
+    });
+  }
+
   ngDoCheck() {
     this.href = this.router.url;
+
     // if (this.href === "/login") {
     //   this.isLoggedIn = false;
     //   this.header = false;

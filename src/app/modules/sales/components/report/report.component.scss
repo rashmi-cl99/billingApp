@@ -1,5 +1,5 @@
 table{
-    width:690px;
+    width:990px;
 }
 
 .main-th-bg
@@ -10,4 +10,16 @@ table{
 .tdcolor
 {
   color:#4D4F5C;
+}
+.scrollBar {
+  @media (min-width: 320px) and (max-width: 768px)
+  {
+    height: 400px;
+    overflow: auto;
+  }
+}
+
+.example-container {
+  height: 70vh;
+  overflow: auto;
 }

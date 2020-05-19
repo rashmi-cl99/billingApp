@@ -1,8 +1,15 @@
+@media (min-width: 1440px) {
+  .mat-dialog-content {
+    width: 900px;
+  }
+  .closeIcon {
+    font-size: 30px;
+  }
+  mat-error {
+    display: inline;
+  }
 
-@media (min-width: 1440px)
-{
-    .mat-dialog-content
-    {
-        width:900px;
-    }
+  .mat-dialog-title {
+    margin-left: 95px;
+  }
 }

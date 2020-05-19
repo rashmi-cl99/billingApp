@@ -15,18 +15,33 @@
   border-color: rgb(112, 111, 111);
 }
 
-.main-th-bg
-{
- background: #CECDCB;
+.main-th-bg {
+  background: #cecdcb;
 }
 
-.tdcolor
-{
-  color:#4D4F5C;
+.tdcolor {
+  color: #4d4f5c;
 }
 
- 
-.border-red,.border-red:focus{
+.border-red,
+.border-red:focus {
   border-color: red;
 }
 
+.scrollBar {
+  @media (min-width: 320px) and (max-width: 768px) {
+    min-height: 400px;
+    overflow: auto;
+  }
+}
+
+.div-disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  // background: #ccc;
+}
+
+ .example-container {
+  height: 70vh;
+  overflow: auto;
+}

@@ -1,71 +1,75 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, throwError } from "rxjs";
+import { Observable, throwError, of } from "rxjs";
 import { map, catchError } from "rxjs/operators";
+import { HttpService } from "src/app/shared/services/http.service";
 
 @Injectable({
   providedIn: "root"
 })
 export class SalesService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private httpService: HttpService
+  ) {}
   users = [];
 
   getStoreData() {
-    return this.httpClient.get("http://localhost:8000/user-shop/").pipe(
+    return this.httpService.get("/user-shop/").pipe(
       map((res: any) => res),
-      catchError((error: any) => Observable.throw(error || "Server error"))
+      catchError((error: any) => throwError(error || "Server error"))
     );
   }
 
-  genratebill(shop,date) {
-    return this.httpClient.get(`http://localhost:8000/api/export/${shop}/${date}/`).pipe(
-      map((res: any) => res),
-      catchError((error: any) => Observable.throw(error || "Server error"))
-    );
+  salesDataAvailable(date, shop) {
+    return this.httpService
+      .get(`/sales-data-available/${date}/${shop}/`)
+      .pipe(
+        map((res: any) => {
+          return null;
+        }),
+        catchError((error: any) => throwError(error || "Server error"))
+      );
   }
 
   getShops() {
-    return this.httpClient.get("http://localhost:8000/shops-list/").pipe(
+    return this.httpService.get("/shops-list/").pipe(
       map((res: any) => res),
-      catchError((error: any) => Observable.throw(error || "Server error"))
+      catchError((error: any) => throwError(error || "Server error"))
     );
   }
 
   reportGenrateCash(date, id) {
-    return this.httpClient
-      .get(`http://localhost:8000/api/get-cash-reports/${date}/${id}/`)
-      .pipe(
-        map((res: any) => res),
-        catchError((error: any) => Observable.throw(error || "Server error"))
-      );
+    return this.httpService.get(`/get-cash-reports/${date}/${id}/`).pipe(
+      map((res: any) => res),
+      catchError((error: any) => throwError(error || "Server error"))
+    );
   }
 
   reportGenratePos(date, id) {
-    return this.httpClient
-      .get(`http://localhost:8000/api/get-pos-reports/${date}/${id}/`)
-      .pipe(
-        map((res: any) => res),
-        catchError((error: any) => Observable.throw(error || "Server error"))
-      );
+    return this.httpService.get(`/get-pos-reports/${date}/${id}/`).pipe(
+      map((res: any) => res),
+      catchError((error: any) => throwError(error || "Server error"))
+    );
   }
 
   getCategoryList(data) {
-    return this.httpClient
-      .get(`http://localhost:8000/shop-categories/${data.shop}/${data.date}/`)
+    return this.httpService
+      .get(`/shop-categories/${data.shop}/${data.date}/`)
       .pipe(
         map((res: any) => res),
-        catchError((error: any) => Observable.throw(error || "Server error"))
+        catchError((error: any) => throwError(error || "Server error"))
       );
   }
 
   getLiquorList(data) {
-    return this.httpClient
+    return this.httpService
       .get(
-        ` http://localhost:8000/api/liquors_categories1/${data.shop}/${data.date}/${data.category}/`
+        `/shop-liquors/${data.shop}/${data.date}/${data.category}/`
       )
       .pipe(
         map((res: any) => res),
-        catchError((error: any) => Observable.throw(error || "Server error"))
+        catchError((error: any) => throwError(error || "Server error"))
       );
   }
 
@@ -73,13 +77,38 @@ export class SalesService {
     const fd = {
       sales: JSON.stringify([...data])
     };
-    return this.httpClient
-      .post(`http://localhost:8000/api/sales-data/`, fd)
+    return this.httpService.post(`/add-sales/`, fd).pipe(
+      map((res: any) => res),
+      catchError((error: any) => throwError(error || "Server error"))
+    );
+  }
+
+  updateSalesdata(data, shopliquor, details) {
+    return this.httpService
+      .patch(`/update-sales-data/${data.date}/${shopliquor}/`, details)
       .pipe(
         map((res: any) => res),
-        catchError((error: any) => {
-          return throwError(error || "Server error");
-        })
+        catchError((error: any) => throwError(error || "Server error"))
       );
   }
+
+  getInvoiceData(date, shop) {
+    // console.log("sdfdsfds", date, shop);
+    return this.httpService.get(`/bill-format/${date}/${shop}/`).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError((error: any) => throwError(error || "Server error"))
+    );
+  }
+
+  getFirstDate() {
+    return this.httpService.get(`/first-date-salesdata/`).pipe(
+      map((res: any) => {
+        return res;
+      }),
+      catchError((error: any) => throwError(error || "Server error"))
+    );
+  }
+  // return of(true);
 }

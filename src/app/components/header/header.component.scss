@@ -1,14 +1,26 @@
-.menu{
-    font-size: 1.2rem;
-    background-color: rgb(142, 68, 173);
+.menu {
+  font-size: 1.2rem;
+  background-color: rgb(142, 68, 173);
 }
 
 .mat-toolbar-single-row {
-   
-    -webkit-margin-bottom-collapse: discard;
+  -webkit-margin-bottom-collapse: discard;
 }
 
+.headerheight {
+  min-height: 72px;
+  height: auto;
+}
 
+@media (max-width: 599px) {
+  .mat-toolbar-row,
+  .mat-toolbar-single-row {
+    min-height: 100px;
+  }
+}
 
-
-
+@media print {
+  * {
+    display: none;
+  }
+}

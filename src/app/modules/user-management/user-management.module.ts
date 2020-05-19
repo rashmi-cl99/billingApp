@@ -2,7 +2,6 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
-import { RegisterComponent } from "./components/register/register.component";
 import { LoginComponent } from "./components/login/login.component";
 import { userManagementRouting } from "./routes/user-management-routing.module";
 import { SharedModule } from "src/app/shared/shared.module";
@@ -12,7 +11,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 
 @NgModule({
-  declarations: [RegisterComponent, LoginComponent, ForgotPasswordComponent, ResetPasswordComponent, ChangePasswordComponent, MyProfileComponent],
+  declarations: [LoginComponent, ForgotPasswordComponent, ResetPasswordComponent, ChangePasswordComponent, MyProfileComponent],
   imports: [
     CommonModule,
     FormsModule,

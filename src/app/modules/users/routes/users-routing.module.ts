@@ -8,6 +8,7 @@ const routes: Routes = [
   {
     path: "",
     component: UserListComponent,
+    // component:SalesComponent,
     canActivate: [RoleGuard ,AuthGuard],
     data: {role: 'Admin'},
   },

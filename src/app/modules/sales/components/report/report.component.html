@@ -1,255 +1,445 @@
-<div class="container">
-<form>
-  <div class="row px-2 d-flex flex-wrap justify-content-center">
-     <div class="col-lg-3 col-md-4 col-6">
-      <mat-form-field class="mt-5">
-        <mat-label>Shop</mat-label>
-        <mat-select name="shopSelected" [(ngModel)]="shopSelected">
-          <mat-option *ngFor="let shop of shops" [value]="shop.id">
-            {{ shop.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-     </div>
-      
-     <div class="col-lg-3 col-md-4 col-6">
-      <mat-form-field class="mt-5">
-        <mat-label>Type</mat-label>
-        <mat-select name="typeSelected" [(ngModel)]="typeSelected">
-          <mat-option *ngFor="let type of types"[value]="type">
-            {{ type }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-     </div>
-           
-     <div class="col-lg-3 col-md-4 col-6">
+<div class="container pb-5">
+  <div class="row">
+    <h3 class="col-12 text-center mt-5">Report Generate</h3>
+  </div>
+  <form>
+    <div class="row px-2 d-flex flex-wrap justify-content-center">
+      <div class="col-lg-3 col-md-4 col-12 text-center">
+        <mat-form-field class="mt-5">
+          <mat-label>Shop</mat-label>
+          <mat-select
+            name="shopSelected"
+            [(ngModel)]="shopSelected"
+            (ngModelChange)="setMinDate(shopSelected)"
+          >
+            <mat-option *ngFor="let shop of shops" [value]="shop.id">
+              {{ shop.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-lg-3 col-md-4 col-12 text-center">
+        <mat-form-field class="mt-5">
+          <mat-label>Type</mat-label>
+          <mat-select name="typeSelected" [(ngModel)]="typeSelected">
+            <mat-option *ngFor="let type of types" [value]="type">
+              {{ type }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- <div class="col-lg-3 col-md-4 col-12 text-center">
      <mat-form-field class="mt-5">
-          <input name="dateSelected" matInput [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="dateSelected">
+          <input
+          name="dateSelected"
+          matInput
+          [matDatepicker]="picker"
+          placeholder="Choose a date"
+          [(ngModel)]="dateSelected">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-    </div>
-  </div>
-  </form>
-  <h4 *ngIf="typeSelected === null || shopSelected === null " class="text-center">Please select shop and type</h4>
-  <div class="col-12 text-center mt-5">
-  <button mat-button class=" robot-bold btnbg text-white"(click)="onClickGetCategory()" (click)="onSubmit()">Generate Report</button>
-  </div>
-  
-<!--------------------------------Cash tabel----------------------------------------------->
-  <div class="example-container d-flex flex-wrap justify-content-center" *ngIf="typeSelected === 'cash'">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mt-3">
-      <!-- sl.no Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2" class=" robot-bold thtext theadbg">
-          Sl.No
-        </th>
-  
-        <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-         
-            {{ element.id }}
-         
-        </td>
-      </ng-container>
-  
-      <!-- Itemdescription Column -->
-      <ng-container matColumnDef="itemdescription">
-        <th mat-header-cell *matHeaderCellDef class=" robot-bold thtext theadbg">Item Description</th>
-        <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-          
-            {{ element.itemdescription }}
+    </div> -->
 
-        </td>
-      </ng-container>
-      <!------openingquantity-->
-      <ng-container matColumnDef="openingquantity">
-        <th mat-header-cell *matHeaderCellDef class="robot-bold thtext theadbg">Opening Quantity</th>
-        <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-        
-            {{ element.openingquantity }}
-        
-        </td>
-      </ng-container>
-     
-      <!--------purchase------->
-      <ng-container matColumnDef="purchase">
-        <th mat-header-cell *matHeaderCellDef class=" robot-bold thtext theadbg">Purchase</th>
-        <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-          
-            {{ element.purchase }}
-        
-        </td>
-      </ng-container>
-      <!-------------sales----------->
-      <ng-container matColumnDef="sales">
-        <th mat-header-cell *matHeaderCellDef class=" robot-bold thtext theadbg">Sales</th>
-        <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-         
-            {{ element.sales }}
-         
-        </td>
-      </ng-container>
-      <!------------------closing quantity-------------->
-      <ng-container matColumnDef="closing">
-        <th mat-header-cell *matHeaderCellDef class=" robot-bold thtext theadbg">Closing</th>
-        <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-          
-            {{ element.closing }}
-          
-        </td>
-      </ng-container>
-  
-      <!-- discount Column -->
-      <ng-container matColumnDef="discount_rate">
-        <th mat-header-cell *matHeaderCellDef class=" robot-bold thtext theadbg">Discount</th>
-        <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-         
-            {{ element.discount_rate }}
-         
-        </td>
-      </ng-container>
-  
-      <!-- total Column -->
-      <ng-container matColumnDef="total">
-        <th mat-header-cell *matHeaderCellDef class=" robot-bold thtext theadbg">Total Rs</th>
-        <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-         
-            {{ element.total }}
-          
-        </td>
-      </ng-container>
-     
-  
-      <!-- Header row second group -->
-      <ng-container matColumnDef="header-row-second-group">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          [attr.colspan]="5"
-          class="text-right robot-regular headertxt"
+      <div class="col-lg-3 col-md-4 col-12 text-center">
+        <mat-form-field class="mt-5" *ngIf="role === 'Admin'; else elseBlock">
+          <input
+            name="dateSelected"
+            matInput
+            [matDatepicker]="picker1"
+            placeholder="Choose Date"
+            [disabled]="
+              shopSelected === null ||
+              typeSelected === null ||
+              dateSelected === null
+            "
+            [(ngModel)]="dateSelected"
+            [max]="maxDateadmin"
+            [min]="minDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <ng-template #elseBlock>
+        <mat-form-field class="mt-5">
+          <input
+            name="dateSelected"
+            matInput
+            [matDatepicker]="picker2"
+            placeholder="Choose Date"
+            [disabled]="
+              shopSelected === null ||
+              typeSelected === null ||
+              dateSelected === null
+            "
+            [(ngModel)]="dateSelected"
+            [max]="maxDate"
+            [min]="minDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker2"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </ng-template>
+
+      <!-- <div class="col-lg-3 col-md-4 col-6 text-center mt-5">
+      <button mat-button
+      class=" robot-bold btnbg text-white"
+      (click)="onClickGetCategory()"
+      (click)="onSubmit()">
+      Generate Report</button>
+    </div> -->
+
+      <div class="col-lg-3 col-md-4 col-6 text-center mt-5">
+        <button
+          mat-raised-button
+          class=" robot-bold btnbg text-white"
+          [disabled]="
+            shopSelected === null ||
+            typeSelected === null ||
+            dateSelected === null
+          "
+          (click)="onClickGetCategory()"
+          (click)="onSubmit()"
         >
-          Quantity
-        </th>
-      </ng-container>
-
-     
-      <tr
-        mat-header-row
-        *matHeaderRowDef="['header-row-second-group']"
-      ></tr>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      <!-- <ng-container matColumnDef="noRecord">
-        <td mat-footer-cell *matFooterCellDef>No records found.</td>
-     </ng-container>
-
-     <ng-template *ngIf="dataSource?.length === 0">
-      <tr mat-footer-row *matFooterRowDef="['noRecord']"></tr>
-    </ng-template> -->
-    </table>
+          Generate Report
+        </button>
+      </div>
     </div>
-    <h4 *ngIf="dataSource?.data?.length === 0" class="text-center">No data found</h4>    
-  
- <!-------------------------------Pos tabel------------------------------------->
+  </form>
+  <h4
+    *ngIf="typeSelected === null || shopSelected === null"
+    class="text-center"
+  >
+    Please select shop and type
+  </h4>
 
- <div class="example-container d-flex flex-wrap justify-content-center" *ngIf="typeSelected === 'pos'">
-  <table mat-table [dataSource]="dataSourcepos" class="mat-elevation-z8 mt-3">
-    <!-- sl.no Column -->
-    <ng-container matColumnDef="id">
-      <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2" class=" robot-bold thtext theadbg">
-        Sl.No
-      </th>
+  <!--------------------------------Cash tabel----------------------------------------------->
+  <div class="example-container  d-flex flex-wrap justify-content-center">
+    <div class="scrollBar pb-2 example-container" *ngIf="typeSelected === 'cash'" >
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 mt-3">
+        <!-- sl.no Column -->
+        <ng-container matColumnDef="id">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [attr.rowspan]="2"
+            class=" robot-bold thtext theadbg"
+          >
+            Sl.No
+          </th>
 
-      <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-       
-          {{ element.id }}
-       
-      </td>
-    </ng-container>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.id }}
+          </td>
+        </ng-container>
 
-    <!-- Itemdescription Column -->
-    <ng-container matColumnDef="itemdescription">
-      <th mat-header-cell *matHeaderCellDef class=" robot-bold thtext theadbg">Item Description</th>
-      <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-        
-          {{ element.itemdescription }}
-    
-      </td>
-    </ng-container>
-    <!------openingquantity-->
-    <ng-container matColumnDef="quantity">
-      <th mat-header-cell *matHeaderCellDef class=" robot-bold thtext theadbg">Quantity</th>
-      <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-        
-          {{ element.quantity }}
-        
-      </td>
-    </ng-container>
-   
-    <!-- discount Column -->
-    <ng-container matColumnDef="discount_rate">
-      <th mat-header-cell *matHeaderCellDef [attr.rowspan]="2" class=" robot-bold thtext theadbg">Discount</th>
-      <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-          {{ element.discount_rate }}
-      </td>
-    </ng-container>
+        <!-- Itemdescription Column -->
+        <ng-container matColumnDef="itemdescription">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg"
+          >
+            Item Description
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.itemdescription }}
+          </td>
+        </ng-container>
+        <!------openingquantity-->
+        <ng-container matColumnDef="openingquantity">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="robot-bold thtext theadbg"
+          >
+            Opening Quantity
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.openingquantity }}
+          </td>
+        </ng-container>
 
-     <!-- Amount Column -->
+        <!--------purchasequantity------->
+        <ng-container matColumnDef="purchase">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg"
+          >
+            Purchase Quantity
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.purchase }}
+          </td>
+        </ng-container>
+        <!-------------sales----------->
+        <ng-container matColumnDef="sales">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg"
+          >
+            Sales
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.sales }}
+          </td>
+        </ng-container>
+        <!------------------closing quantity-------------->
+        <ng-container matColumnDef="closing">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg"
+          >
+            Closing Quantity
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.closing }}
+          </td>
+        </ng-container>
 
-     <ng-container matColumnDef="pos1">
-      <th mat-header-cell *matHeaderCellDef class=" robot-bold thtext theadbg">POS1</th>
-      <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-    
-          {{ element.pos1 }}
-      
-      </td>
-    </ng-container>
+        <!-- discount Column -->
+        <ng-container matColumnDef="discount_rate">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg"
+          >
+            Total Discount
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.discount_rate }}
+          </td>
+        </ng-container>
 
-    <ng-container matColumnDef="pos2">
-      <th mat-header-cell *matHeaderCellDef class=" robot-bold thtext theadbg">POS2</th>
-      <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-    
-          {{ element.pos2 }}
-        
-      </td>
-    </ng-container>
+        <!-- total Column -->
+        <ng-container matColumnDef="total">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg"
+          >
+            Total Rs
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.total }}
+          </td>
+        </ng-container>
 
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <!-- <h4 *ngIf="dataSource?.data?.length === 0" class="text-center">No data found</h4>     -->
+    <!-------------------------------Pos tabel------------------------------------->
 
-    <!-- total Column -->
-    <ng-container matColumnDef="total">
-      <th mat-header-cell *matHeaderCellDef class=" robot-bold thtext theadbg">Total Rs</th>
-      <td mat-cell *matCellDef="let element" class="font-sm robot-regular headertxt tdcolor">
-        
-          {{element.total}}
-        
-      </td>
-    </ng-container>
-   
-
-    <!-- Header row second group -->
-    <ng-container matColumnDef="header-row-second-group">
-      <th
-        mat-header-cell
-        *matHeaderCellDef
-        [attr.colspan]="6"
-        class="text-right robot-regular headertxt"
+    <div class="scrollBar" *ngIf="typeSelected === 'pos'">
+      <table
+        mat-table
+        [dataSource]="dataSourcepos"
+        class="mat-elevation-z8 mt-3"
       >
-        Amount
-      </th>
-    </ng-container>
+        <!-- sl.no Column -->
+        <ng-container matColumnDef="id">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            [attr.rowspan]="2"
+            class=" robot-bold thtext theadbg"
+          >
+            Sl.No
+          </th>
 
-    <tr
-      mat-header-row
-      *matHeaderRowDef="['header-row-second-group']"
-    ></tr>
-    <tr mat-header-row *matHeaderRowDef="displayedColumnspos"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumnspos"></tr>
-  </table>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.id }}
+          </td>
+        </ng-container>
+
+        <!-- Itemdescription Column -->
+        <ng-container matColumnDef="itemdescription">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg"
+          >
+            Item Description
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.item_name }}
+          </td>
+        </ng-container>
+
+        <!------openingquantity-->
+        <ng-container matColumnDef="openingquantity">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="robot-bold thtext theadbg"
+          >
+            Opening Quantity
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.openingquantity }}
+          </td>
+        </ng-container>
+
+        <!--------purchasequantity------->
+        <ng-container matColumnDef="purchase">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg"
+          >
+            Purchase Quantity
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.purchase }}
+          </td>
+        </ng-container>
+        <!------------------closing quantity-------------->
+        <ng-container matColumnDef="closing">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg"
+          >
+            Closing Quantity
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.closing }}
+          </td>
+        </ng-container>
+        <!------openingquantity-->
+        <ng-container matColumnDef="discount">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg"
+          >
+            Total Discount
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.discount }}
+          </td>
+        </ng-container>
+
+        <!-- discount Cpolumn -->
+        <ng-container matColumnDef="quantity">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg "
+          >
+            Quantity
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            <!-- class=" col-12 flex-row flex-wrap" -->
+            <div *ngFor="let item of element.posmachine; let i = index">
+              <span class="font-weight-bold"
+                >{{ item.pos === 1 ? "pos1" : "pos2" }}:&nbsp;</span
+              >
+              <span>{{ item.quantity }}</span>
+            </div>
+          </td>
+        </ng-container>
+
+        <!-- total Column -->
+        <ng-container matColumnDef="total">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class=" robot-bold thtext theadbg"
+          >
+            Total Rs
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let element"
+            class="font-sm robot-regular headertxt tdcolor"
+          >
+            {{ element.total }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnspos"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnspos"></tr>
+      </table>
+    </div>
   </div>
-  <h4 *ngIf="dataSourcepos?.data?.length === 0" class="text-center">No data found</h4>  
+  <!-- <h4 *ngIf="dataSourcepos?.data?.length === 0" class="text-center">No data found</h4>   -->
 </div>
-  <footer class="text-center">
-    Copyright &copy;2019
-   </footer>
-  
+<footer class="text-center">
+  Copyright &copy;2019
+</footer>

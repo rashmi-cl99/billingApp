@@ -1,0 +1,27 @@
+table {
+  width: 100%;
+}
+h3 {
+  color: gray;
+}
+
+@media print {
+  * {
+    background-color: rgb(94, 87, 86);
+    color: white;
+  }
+
+  .col-lg-6,
+  .col-md-12,
+  .col-sm-12,
+  .col-xs-12 {
+    width: 50%;
+  }
+}
+
+.scrollBar {
+  @media (min-width: 320px) and (max-width: 768px) {
+    height: 300px;
+    overflow: auto;
+  }
+}

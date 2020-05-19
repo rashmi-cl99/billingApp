@@ -38,6 +38,33 @@ export class ResetPasswordComponent implements OnInit {
       this.token = params["token"];
       console.log("token=", this.token);
     });
+
+    this.isValueChanged();
+  }
+
+  isValueChanged() {
+    this.resetForm.get("confirmPassword").valueChanges.subscribe(value => {
+      if (value !== this.resetForm.get("newPassword").value) {
+        this.resetForm
+          .get("confirmPassword")
+          .setValidators([this.isValidPassword.bind(this)]);
+      }
+    });
+  }
+
+  isValidPassword(control) {
+    console.log("isValidPassword");
+
+    if (
+      control.value === this.resetForm.get("newPassword").value &&
+      control.value.trimLeft() !== ""
+    ) {
+      console.log("not null passed");
+      return null;
+    }
+    console.log(" null passed");
+
+    return { notMatched: true };
   }
 
   //this method is used to show error message for newPassword
@@ -56,22 +83,47 @@ export class ResetPasswordComponent implements OnInit {
 
   //this method is used for service integration of resetPassword
   resetpwd() {
+  
     console.log(this.resetForm.valid);
+    
+    if(this.resetForm.valid){
+
+      this.userManagementService.checkValidToken(this.token).subscribe(
+        res => {
+          this.resetPassword();
+        },
+        error => {;
+          Swal.fire({
+            type: "error",
+            title: "Oops...",
+            text: error.error.error
+          });;
+        }
+      );
+      
+    }
+  }
+
+
+  resetPassword(){
+
     const fd = {
       new_password: this.resetForm.value.newPassword,
       confirm_password: this.resetForm.value.confirmPassword,
       token: this.token
     };
+
     this.userManagementService.resetpwd(fd).subscribe(
       res => {
+        
         Swal.fire("password reset successfully", res, "success");
         this.router.navigate(["/login"]);
       },
-      error => {
+      error => {;
         Swal.fire({
           type: "error",
           title: "Oops...",
-          text: error.error.new_password
+          text: error.error.non_field_errors || error.error.error || error.error.new_password || error.error.confirm_password
         });
         
           const validationErrors = error.error;
@@ -85,10 +137,12 @@ export class ResetPasswordComponent implements OnInit {
                 });
               }
             });
-           
+          
           }
 
       }
     );
+
   }
+
 }

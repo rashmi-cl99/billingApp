@@ -1,27 +1,125 @@
-<form class="container mt-5">
-  <div class="row px-2 d-flex flex-wrap justify-content-center">
-     <div class="col-lg-3 col-md-4 col-12">
-      <mat-form-field class="mt-5">
-        <mat-label>Shop</mat-label>
-        <mat-select name="shopSelected" [(ngModel)]="shopSelected">
-          <mat-option *ngFor="let shop of shops" [value]="shop.id">
-            {{ shop.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-     </div>
-     <div class="col-lg-3 col-md-4 col-12">
+<div class="container printnone ">
+  <div class="row">
+    <h3 class="col-12 text-center mt-5">Bill Generate</h3>
+  </div>
+  <form>
+    <div class="row px-2 d-flex flex-wrap justify-content-center">
+      <div class="col-lg-3 col-md-4 col-12 text-center">
+        <mat-form-field class="mt-5">
+          <mat-label>Shop</mat-label>
+          <mat-select
+            name="shopSelected"
+            [(ngModel)]="shopSelected"
+            (ngModelChange)="invoiceShow = false || setMinDate(shopSelected)"
+          >
+            <mat-option *ngFor="let shop of shops" [value]="shop.id">
+              {{ shop.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <!-- <div class="col-lg-3 col-md-4 col-12 text-center">
      <mat-form-field class="mt-5">
           <input matInput name="dateSelected" [matDatepicker]="picker" placeholder="Choose a date" [(ngModel)]="dateSelected">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
+    </div> -->
+
+      <div class="col-lg-3 col-md-4 col-12 text-center">
+        <mat-form-field class="mt-5" *ngIf="role === 'Admin'; else elseBlock">
+          <input
+            name="dateSelected"
+            matInput
+            [matDatepicker]="picker1"
+            placeholder="Choose Date"
+            [disabled]="shopSelected === null || dateSelected === null"
+            [(ngModel)]="dateSelected"
+            [max]="maxDateadmin"
+            [min]="minDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <ng-template #elseBlock>
+        <mat-form-field class="mt-5">
+          <input
+            name="dateSelected"
+            matInput
+            [matDatepicker]="picker2"
+            placeholder="Choose Date"
+            [disabled]="shopSelected === null || dateSelected === null"
+            [(ngModel)]="dateSelected"
+            [max]="maxDate"
+            [min]="minDate"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker2"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </ng-template>
+
+      <!-- <div class="col-lg-3 col-md-4 col-12 mt-5 text-center">
+        <a
+        class=" robot-bold btnbg text-white"
+        mat-button
+        [href]=link
+        target="_blank"
+        role="button"
+        (click)="onClickGetCategory()"
+        (click)="onsubmit()"
+      >
+      Bill Generate
+      </a>
+      </div> -->
+
+      <div class="col-lg-4 col-md-4 col-12 mt-5 text-center ">
+        <button
+          type="button"
+          mat-raised-button
+          class="robot-bold btnbg text-white mb-2"
+          [disabled]="shopSelected === null || dateSelected === null"
+          (click)="onsubmit()"
+        >
+          Bill Generate
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          class="robot-bold btnbg text-white ml-2 mb-2"
+          [disabled]="shopSelected === null || dateSelected === null"
+          (click)="generateInvoice(dateSelected, shopSelected)"
+        >
+          Generate Invoice
+        </button>
+      </div>
     </div>
-  </div>
   </form>
-  <div class="col-12 text-center">
-  <button mat-button class=" robot-bold btnbg text-white" (click)="onClickGetCategory()" (click)="onsubmit()">Bill Generate</button>
-  </div>
-  <footer class="text-center">
-      Copyright &copy;2019
-  </footer>
+  <h4
+    *ngIf="dateSelected === null || shopSelected === null"
+    class="text-center"
+  >
+    Please select shop and date <br />
+    Note : Once you are done with the bill generation you can't edit the data
+  </h4>
+</div>
+
+<invoice
+  *ngIf="invoiceShow"
+  class="mt-5"
+  [shopname]="shopSelected"
+  [selecteddate]="dateSelected"
+  [invoiceData]="invoiceData"
+></invoice>
+
+<footer class="text-center mt-5">
+  Copyright &copy;2019
+</footer>

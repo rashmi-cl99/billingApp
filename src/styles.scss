@@ -87,20 +87,20 @@ body {
 .thtext {
   color: #a3a6b4;
 }
-body{
+body {
   position: relative;
 }
 footer {
-  position:absolute;
-  bottom:0;
+  position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
+  // padding-top: 10px;
 }
 
 .cursor-disabled {
   cursor: disabled;
 }
-.cursor-disabledsy
-{
+.cursor-disabledsy {
   cursor: no-drop;
 }

@@ -1,90 +1,113 @@
 <mat-tab-group animationDuration="0ms">
   <mat-tab label="My Profile">
-    <div class=" d-flex flex-wrap justify-content-center  align-items-center h-100">
-        <div
-            class="bg-white col-11 col-md-7 col-lg-6 col-xl-5 d-flex flex-row flex-wrap align-items-center mt-5"
-          >
-            <div class="my-auto text-center col-12  py-5 container">
-    <form [formGroup]="myprofileForm">
-      <div class="form-group d-flex flex-row flex-wrap justify-content-center">
-        <mat-form-field class="w-100">
-          <input
-            matInput
-            placeholder="Name"
-            formControlName="name"
-            class="form-control"
-          />
-          <mat-error *ngIf="myprofileForm.get('name').invalid">{{
-            getErrorMessagename()
-          }}</mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-100">
-          <input
-            matInput
-            placeholder="Phone"
-            formControlName="phone"
-            class="form-control "
-          />
-          <mat-error *ngIf="myprofileForm.get('phone').invalid">{{
-            getErrorMessage1()
-          }}</mat-error>
-          <mat-error *ngIf="myprofileForm.get('phone').errors?.serverError">
-            {{ registerForm.get('phone').errors?.serverError }}
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="w-100 cursor-disabledsy">
-          <input
-            matInput
-            placeholder="Email"
-            formControlName="email"
-            class="form-control"
-            [attr.disabled]="true"
-          />
-          <mat-error *ngIf="myprofileForm.get('email').invalid">{{
-            getErrorMessage()
-          }}</mat-error>
-          <!-----------server error--------->
-          <mat-error *ngIf="myprofileForm.get('email').errors?.serverError">
-            {{ registerForm.get('email').errors?.serverError }}
-          </mat-error>
-        </mat-form-field>
-        
-       
-        <div class="text-left w-100">
-          <mat-form-field class="w-100 cursor-disabledsy">
-            <mat-label>Role</mat-label>
-            <mat-select formControlName="role" disabled>
-              <mat-option *ngFor="let role of roles" [value]="role.id">
-                {{ role.name }}
-              </mat-option>
-            </mat-select>
-            <mat-error *ngIf="myprofileForm.hasError('required')">
-                This field is required
-            </mat-error>
-          </mat-form-field>
+    <div
+      class=" d-flex flex-wrap justify-content-center  align-items-center h-100"
+    >
+      <div
+        class="bg-white col-11 col-md-7 col-lg-6 col-xl-5 d-flex flex-row flex-wrap align-items-center mt-5"
+      >
+        <div class="my-auto text-center col-12  py-5 container">
+          <form [formGroup]="myprofileForm">
+            <div
+              class="form-group d-flex flex-row flex-wrap justify-content-center"
+            >
+              <mat-form-field class="w-100">
+                <input
+                  matInput
+                  placeholder="Name"
+                  formControlName="name"
+                  class="form-control"
+                />
+                <mat-error *ngIf="myprofileForm.get('name').invalid">{{
+                  getErrorMessagename()
+                }}</mat-error>
+              </mat-form-field>
+              <mat-form-field class="w-100">
+                <input
+                  matInput
+                  placeholder="Phone"
+                  formControlName="phone"
+                  class="form-control cursor-disabledsy"
+                  [readonly]="!editable"
+                />
+                <mat-error *ngIf="myprofileForm.get('phone').invalid">{{
+                  getErrorMessage1()
+                }}</mat-error>
+                <mat-error
+                  *ngIf="myprofileForm.get('phone').errors?.serverError"
+                >
+                  {{ registerForm.get("phone").errors?.serverError }}
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="w-100 ">
+                <input
+                  matInput
+                  placeholder="Email"
+                  formControlName="email"
+                  class="form-control cursor-disabledsy"
+                  [readonly]="!editable"
+                />
+                <mat-error *ngIf="myprofileForm.get('email').invalid">{{
+                  getErrorMessage()
+                }}</mat-error>
+                <!-----------server error--------->
+                <mat-error
+                  *ngIf="myprofileForm.get('email').errors?.serverError"
+                >
+                  {{ registerForm.get("email").errors?.serverError }}
+                </mat-error>
+              </mat-form-field>
+
+              <div class="text-left w-100" *ngIf="userRole !== 'Admin'">
+                <mat-form-field class="w-100 cursor-disabledsy">
+                  <mat-label>Role</mat-label>
+                  <mat-select
+                    formControlName="role"
+                    [disabled]="userRole !== 'Admin'"
+                  >
+                    <mat-option *ngFor="let role of roles" [value]="role.id">
+                      {{ role.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="myprofileForm.hasError('required')">
+                    This field is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="text-left w-100" *ngIf="userRole !== 'Admin'">
+                <mat-form-field class="cursor-disabledsy w-100">
+                  <mat-label>Shop</mat-label>
+                  <mat-select
+                    formControlName="shop"
+                    multiple
+                    [disabled]="userRole !== 'Admin'"
+                  >
+                    <mat-option *ngFor="let shop of shops" [value]="shop.id">
+                      {{ shop.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="myprofileForm.hasError('required')">
+                    This field is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div
+                class="col-6 text-xl-center tex-lg-center text-md-center mx-auto text-white"
+              >
+                <button
+                  mat-button
+                  class=" robot-bold btnbg cursor-pointer "
+                  (click)="onSubmit()"
+                >
+                  Update
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="text-left w-100">
-        <mat-form-field class="cursor-disabledsy w-100">
-          <mat-label>Shop</mat-label>
-          <mat-select formControlName="shop" multiple disabled>
-            <mat-option *ngFor="let shop of shops" [value]="shop.id">
-              {{ shop.name }}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="myprofileForm.hasError('required')">
-              This field is required
-          </mat-error>
-        </mat-form-field>
-       </div>
       </div>
-      <div class="row">
-        <div class="col-6 text-xl-center tex-lg-center text-md-center mx-auto text-white">
-          <button mat-button class=" robot-bold btnbg cursor-pointer "(click)="onSubmit()">Update</button>
-        </div>
-      </div>
-    </form>
-    </div>
-    </div>
     </div>
   </mat-tab>
   <mat-tab label="Change Password">
@@ -92,5 +115,5 @@
   </mat-tab>
 </mat-tab-group>
 <footer class="text-center">
-    Copyright &copy;2019
+  Copyright &copy;2019
 </footer>

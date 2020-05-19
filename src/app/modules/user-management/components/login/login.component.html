@@ -8,10 +8,10 @@
     >
       <div class="my-auto text-center col-12  py-5 ">
         <i class="material-icons">
-          assignment
+          lock
         </i>
-        <p class="font-lg-l robot-regular headertext-color">Login to Billing App</p>
-        <form [formGroup]="loginForm">
+        <p class="font-lg-l robot-regular headertext-color">Login</p>
+        <form [formGroup]="loginForm" (keydown)="keyDownFunction($event)">
           <mat-form-field class="text-secondary w-100" appearance="outline">
             <mat-label>Enter your Email</mat-label>
             <input
@@ -24,10 +24,10 @@
             <mat-error *ngIf="loginForm.get('username').invalid">{{
               getErrorMessage()
             }}</mat-error>
-             <!-----------server error--------->
-           <mat-error *ngIf="loginForm.get('username').errors?.serverError">
-            {{ loginForm.get('username').errors?.serverError }}
-           </mat-error>
+            <!-----------server error--------->
+            <mat-error *ngIf="loginForm.get('username').errors?.serverError">
+              {{ loginForm.get("username").errors?.serverError }}
+            </mat-error>
           </mat-form-field>
           <mat-form-field
             class="w-100  mt-3"
@@ -45,20 +45,23 @@
             <button
               mat-icon-button
               matSuffix
-              (click)="hide = !hide"
               aria-label="hide"
               class="bg-transparent"
             >
-              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+              <mat-icon (click)="hide = !hide">{{
+                hide ? "visibility_off" : "visibility"
+              }}</mat-icon>
             </button>
-            <mat-hint class="font-xs robot-regular">Minimum 8 characters!</mat-hint>
+            <mat-hint class="font-xs robot-regular"
+              >Minimum 8 characters</mat-hint
+            >
             <mat-error *ngIf="loginForm.get('password').invalid">{{
               getErrorMessagepwd()
             }}</mat-error>
             <!-----------server error--------->
-           <mat-error *ngIf="loginForm.get('password').errors?.serverError">
-              {{ loginForm.get('password').errors?.serverError }}
-           </mat-error>
+            <mat-error *ngIf="loginForm.get('password').errors?.serverError">
+              {{ loginForm.get("password").errors?.serverError }}
+            </mat-error>
           </mat-form-field>
           <div class="mt-3 text-left cursor-pointer">
             <small
@@ -82,4 +85,3 @@
     </div>
   </div>
 </div>
-

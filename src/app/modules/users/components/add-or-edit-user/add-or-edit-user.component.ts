@@ -18,9 +18,10 @@ export class AddOrEditUserComponent implements OnInit {
   roles = [];
   shops = [];
   registerForm: FormGroup;
-  unamePattern = "[a-zA-Z0-9 ]+";
+  unamePattern = "[a-zA-Z0-9_]+.*$";
   mobnumPattern = "^((\\+91-?)|0)?[0-9]{10}$";
-  emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
+  //  emailPattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
+  emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
   router: any;
   userList = [];
   disableSubmit = false;
@@ -63,6 +64,7 @@ export class AddOrEditUserComponent implements OnInit {
       role: new FormControl(null, Validators.required),
       shop: new FormControl(null, Validators.required)
     });
+
     this.dialogData["type"] === "Edit User" &&
       this.editUserDetails(this.dialogData["user"]);
   }
@@ -73,7 +75,7 @@ export class AddOrEditUserComponent implements OnInit {
       name: data.name,
       phone: data.phone,
       email: data.email,
-      password: data.password,
+      password: atob(data.text_password),
       role: data.role,
       shop: data.shop
     });
@@ -83,16 +85,15 @@ export class AddOrEditUserComponent implements OnInit {
     if (this.registerForm.valid && this.dialogData["type"] === "Add User") {
       console.log("Submitted Succesfully", this.registerForm.value);
       this.disableSubmit = true;
-
       this.usersService.registerSubmit(this.registerForm.value).subscribe(
-        res => {
+        response => {
           Swal.fire({
             type: "success",
-            text: "User added successfully"
+            text: response.message
           });
 
           this.dialogRef.close();
-          this.usersService.getUsers().subscribe(res => {});
+          this.usersService.getUsers().subscribe(response => {});
         },
         error => {
           this.disableSubmit = false;
@@ -116,7 +117,14 @@ export class AddOrEditUserComponent implements OnInit {
     ) {
       console.log("this.dialogData", this.dialogData);
 
-      const { name, email, phone,password, role, shop } = this.registerForm.value;
+      const {
+        name,
+        email,
+        phone,
+        password,
+        role,
+        shop
+      } = this.registerForm.value;
       this.disableSubmit = true;
 
       const fd = {
@@ -124,27 +132,27 @@ export class AddOrEditUserComponent implements OnInit {
         email: email,
         phone: phone,
         id: this.dialogData.user.id,
-        password:password,
+        text_password: password,
         role,
         shop
       };
       this.usersService.updateUser(this.dialogData.user.id, fd).subscribe(
-        res => {
+        resp => {
           Swal.fire({
             type: "success",
-            text: res.Updated
+            text: resp.updated
           });
           this.dialogRef.close();
-          this.usersService.getUsers().subscribe(res => {});
+          this.usersService.getUsers().subscribe(resp => {});
         },
         error => {
           this.disableSubmit = false;
-          //Swal.fire("not updated", error);
-          Swal.fire({
-            type: "error",
-            title: "Oops...",
-            text: error.error
-          });
+          // Swal.fire({
+          //   type: "error",
+          //   title: "Oops...",
+          //   //text: error.error.phone,
+          //   text: error.error.email
+          // });
           const validationErrors = error.error;
           if (error.status === 400) {
             Object.keys(validationErrors).forEach(errorKey => {
@@ -164,26 +172,26 @@ export class AddOrEditUserComponent implements OnInit {
 
   getErrorMessage() {
     return this.registerForm.get("email").hasError("required")
-      ? "You must enter a value"
-      : this.registerForm.get("email").hasError("email")
+      ? "Email is required"
+      : this.registerForm.get("email").hasError("emailPattern")
       ? ""
-      : "Not a valid email";
+      : "Not a valid email.";
   }
 
   getErrorMessage1() {
     return this.registerForm.get("phone").hasError("required")
-      ? "You must enter a value"
+      ? "Phone number is required"
       : this.registerForm.get("phone").hasError("mobnumPattern")
       ? ""
-      : "Not a valid phonenumber";
+      : "Not a valid phone number.";
   }
 
   getErrorMessagename() {
     console.log("formgroupdsf", this.registerForm);
     return this.registerForm.get("name").hasError("required")
-      ? "You must enter a value"
+      ? "Username is required"
       : this.registerForm.get("name").hasError("unamePattern")
       ? ""
-      : "enter a valid name";
+      : "enter a valid name.";
   }
 }

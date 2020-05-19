@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import {Router} from "@angular/router";
 import {
   HttpEvent,
   HttpInterceptor,
@@ -14,16 +15,13 @@ import {
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 
-
 @Injectable({
   providedIn: "root"
 })
 export class AuthInterceptorService implements HttpInterceptor {
   token: any;
 
-  constructor() {
-    // this.token = localStorage.getItem('token');
-  }
+  constructor(private router:Router) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
@@ -34,19 +32,6 @@ export class AuthInterceptorService implements HttpInterceptor {
     | HttpResponse<any>
     | HttpUserEvent<any>
   > {
-    // let request: HttpRequest<any>;
-    // if(this.token != null) {
-    //   request = req.clone({
-    //     setHeaders: {
-    //       Authorization: 'Bearer '+localStorage.getItem('token')
-    //     }
-    //   })
-    // } else {
-    //   request = req;
-    // }
-
-    // return next.handle(request);
-
     const token = localStorage.getItem("token");
     let request: HttpRequest<any> = token
       ? req.clone({
@@ -65,13 +50,23 @@ export class AuthInterceptorService implements HttpInterceptor {
 
   handleResponse(req: HttpRequest<any>, event) {
     if (event instanceof HttpResponse) {
-      //     ' Response Status ', event.status,
-      //     ' With body ', event.body);
+      console.log(
+        "Request for success",
+        req.url,
+        " Response Status ",
+        event.status,
+        " With error ",
+        event
+      );
     }
   }
 
   handleError(req: HttpRequest<any>, event) {
     if (event instanceof HttpErrorResponse) {
+      if(event.status === 401)
+      {
+        this.router.navigate(['/login']);
+      }
       console.error(
         "Request for ",
         req.url,
@@ -82,7 +77,4 @@ export class AuthInterceptorService implements HttpInterceptor {
       );
     }
   }
-
-  
- 
 }

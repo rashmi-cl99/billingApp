@@ -13,15 +13,20 @@ import { Router, RouterLink } from '@angular/router';
 export class MyProfileComponent implements OnInit {
   userDetails=null;
   myprofileForm:FormGroup;
-  unamePattern = "[a-zA-Z0-9 ]+";
+  // unamePattern = "[a-zA-Z\s]+$";
+  unamePattern = "[a-zA-Z0-9_]+.*$";
   mobnumPattern = "^((\\+91-?)|0)?[0-9]{10}$";
-  emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
+  // emailPattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$";
+  emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$";
   roles = [];
   shops = [];
+  userRole = null;
+  shopRole = null;
   constructor(private userManagementService:UserManagementService,private router:Router) { }
 
   ngOnInit() {
-    
+     this.userRole = localStorage.getItem('role');
+     this.shopRole = localStorage.getItem('shop');
     this.userManagementService.getRoles().subscribe(res => {
       console.log("roles got", res);
       this.roles = res;
@@ -49,9 +54,11 @@ export class MyProfileComponent implements OnInit {
         Validators.email,
         Validators.pattern(this.emailPattern),
       ]),
-     
-      role: new FormControl(null, Validators.required),
-      shop: new FormControl(null, Validators.required)
+     role:new FormControl(null),
+     shop: new FormControl(null)
+
+      // role: new FormControl(null, Validators.required),
+      // shop: new FormControl(null, Validators.required)
     });
     //this.myprofileForm.controls['email'].disable();
   }
@@ -111,17 +118,24 @@ export class MyProfileComponent implements OnInit {
           Swal.fire(
             {
           type: 'success',
-          text: res.Success,
+          text: res.success,
   
             }
           )
                },
-        error => {
+        error =>  {
+          if(error.status === 401){
+            localStorage.clear();
+            this.router.navigate(["/login"]);
+            alert("Token Expired, Please Login ");
+          }else
+        {
           Swal.fire({
             type: "error",
             title: "Oops...",
-            text: error.error
+            text: error.error.error || error.error.email
           });
+        }
           const validationErrors = error.error;
           if (error.status === 400) {
             Object.keys(validationErrors).forEach(errorKey => {

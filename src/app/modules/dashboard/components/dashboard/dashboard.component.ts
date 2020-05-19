@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
 
     this.dashboardService.getShopsData().subscribe(res => {
-      console.log("reponse shopdata", res);
+      // console.log("reponse shopdata", res);
       const reformatData = res.map((shop, i) => {
         return {
           ...shop,

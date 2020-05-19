@@ -1,18 +1,20 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 import { map, catchError } from "rxjs/operators";
+import { HttpService } from 'src/app/shared/services/http.service';
+
 
 
 @Injectable({
   providedIn: "root"
 })
 export class UserManagementService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpService: HttpService) {}
   users = [];
 
   submitForm(data) {
-    return this.httpClient.post("http://localhost:8000/login/", data).pipe(
+    return this.httpService.post("/login/",data).pipe(
       map((res: any) => res),
       catchError((error: any) => throwError(error || "Server error"))
     );
@@ -20,8 +22,8 @@ export class UserManagementService {
 
 
   forgotpwd(data) {
-    return this.httpClient
-      .post("http://localhost:8000/password-reset/", data)
+    return this.httpService
+      .post("/password-reset/", data)
       .pipe(
         map((res: any) => res),
         catchError((error: any) => throwError(error || "Server error"))
@@ -29,8 +31,8 @@ export class UserManagementService {
   }
 
   resetpwd(data) {
-    return this.httpClient
-      .post("http://localhost:8000/reset_password_confirm/", data)
+    return this.httpService
+      .post("/reset_password_confirm/", data)
       .pipe(
         map((res: any) => res),
         catchError((error: any) => throwError(error || "Server error"))
@@ -38,8 +40,17 @@ export class UserManagementService {
   }
 
   changepwd(data) {
-    return this.httpClient
-      .post("http://localhost:8000/change-password/", data)
+    return this.httpService
+      .post("/change-password/", data)
+      .pipe(
+        map((res: any) => res),
+        catchError((error: any) => throwError(error || "Server error"))
+      );
+  }
+
+  checkValidToken(token) {
+    return this.httpService
+      .get("/verify-token/"+token)
       .pipe(
         map((res: any) => res),
         catchError((error: any) => throwError(error || "Server error"))
@@ -47,28 +58,28 @@ export class UserManagementService {
   }
 
   getUserprofiledetail() {
-    return this.httpClient.get(`http://localhost:8000/get-user-detail/`).pipe(
+    return this.httpService.get(`/get-user-detail/`).pipe(
       map((res: any) => res),
-      catchError((error: any) => Observable.throw(error || "Server error"))
+      catchError((error: any) => throwError(error || "Server error"))
     );
   }
 
   updateUser(userDetails) {
-    return this.httpClient
-      .patch(`http://localhost:8000/update-user-profile/`, userDetails)
+    return this.httpService
+      .patch(`/update-user-profile/`, userDetails)
       .pipe(
         map((res: any) => res),
         catchError((error: any) => throwError(error || "Server error"))
       );
   }
   getRoles() {
-    return this.httpClient.get("http://localhost:8000/role-list/").pipe(
+    return this.httpService.get("/role-list/").pipe(
       map((res: any) => res),
       catchError((error: any) => throwError(error || "Server error"))
     );
   }
   getShops() {
-    return this.httpClient.get("http://localhost:8000/shops-list/").pipe(
+    return this.httpService.get("/shops-list/").pipe(
       map((res: any) => res),
       catchError((error: any) => throwError(error || "Server error"))
     );
